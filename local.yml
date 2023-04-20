@@ -2,8 +2,5 @@
   become: true
   tasks:
   - name: Install dev utilities
-    apt: name={{item}}
-    with_items:
-      - htop
-      - tmux
-      - tree
+    ansible.builtin.apt:
+      name: ['htop', 'tmux', 'tree']
