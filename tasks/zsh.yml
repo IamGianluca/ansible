@@ -1,20 +1,16 @@
 - name: Install ZSH
   apt: name=zsh
-  tags: &tags_for_zsh_tasks [ 'install', 'productivity', 'dotfiles', 'zsh' ]
     
 - name: Change shell to zsh
   shell: chsh -s $(which zsh)
-  tags: *tags_for_zsh_tasks
 
 - name: Check that the somefile.conf exists
   stat:
     path: /home/gianluca/.oh-my-zsh
   register: oh_my_stats
-  tags: *tags_for_zsh_tasks
 
 - name: Oh-My-Zsh
   shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
-  tags: *tags_for_zsh_tasks
   when: oh_my_stats.stat.exists == False
   become_user: gianluca
 
@@ -22,17 +18,13 @@
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
-  tags: *tags_for_zsh_tasks
 
 - name: Install zsh-fzf-history-search
   ansible.builtin.git:
-    repo: 'https://github.com/zsh-users/zsh-fzf-history-search'
+    repo: 'https://github.com/joshskidmore/zsh-fzf-history-search'
     dest: "~/.oh-my-zsh/plugins/zsh-fzf-history-search"
-  tags: *tags_for_zsh_tasks
 
 - name: Install zsh-syntax-highlighting
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting'
     dest: "~/.oh-my-zsh/plugins/zsh-autosuggestionssyntax-highlghting"
-  tags: *tags_for_zsh_tasks
-

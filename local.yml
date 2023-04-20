@@ -1,6 +1,9 @@
 - hosts: localhost
-  become: true
+  pre_tasks:
+    - name: Update Apt
+      become: true
+      apt: update_cache=yes
+      changed_when: False
   tasks:
-  - name: Install dev utilities
-    ansible.builtin.apt:
-      name: ['htop', 'tmux', 'tree']
+    - include: tasks/packages.yml
+    - include: tasks/zsh.yml

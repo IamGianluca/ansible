@@ -3,13 +3,9 @@ FROM ubuntu
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
-
-# required to use ansible
 RUN apt-get install -y git software-properties-common ansible 
+RUN apt-get install -y build-essential curl
+RUN apt-get install -y vim
 
-# required to use make
-RUN apt-get install -y build-essential
-
-COPY makefile /home/makefile
-
-WORKDIR /home
+COPY . .
+RUN make playbook
