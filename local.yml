@@ -3,7 +3,7 @@
   tasks:
   - name: Install dev utilities
     apt: name={{item}}
-    with items:
+    with_items:
       - htop
       - tmux
       - tree
