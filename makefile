@@ -10,7 +10,7 @@ build:
 	docker build -t $(IMAGE) .
 
 run: 
-	docker run --rm -it $(IMAGE) /bin/zsh
+	docker run --rm -it $(IMAGE) /bin/bash
 
 restart:
 	make build && make run
@@ -23,3 +23,6 @@ pull:
 
 playbook:
 	ansible-playbook local.yml
+
+playbook_local:
+	ansible-playbook local.yml --ask-become-pass

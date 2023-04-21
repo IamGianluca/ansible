@@ -1,3 +1,4 @@
   - name: Install Dev Packages
+    become: true
     ansible.builtin.apt:
       name: ['htop', 'tmux', 'tree']

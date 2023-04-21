@@ -1,7 +1,9 @@
 - name: Install ZSH
+  become: true
   apt: name=zsh
     
 - name: Change shell to zsh
+  become: true
   shell: chsh -s $(which zsh)
 
 - name: Check that the somefile.conf exists
@@ -27,4 +29,4 @@
 - name: Install zsh-syntax-highlighting
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting'
-    dest: "~/.oh-my-zsh/plugins/zsh-autosuggestionssyntax-highlghting"
+    dest: "~/.oh-my-zsh/plugins/zsh-syntax-highlighting"
