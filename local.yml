@@ -10,4 +10,4 @@
     - include: tasks/zsh.yml
     - include: tasks/powerline.yml
     - include: tasks/dotfiles.yml
-    - include: tasks/pyenv.yml
+    - include: tasks/python-env.yml

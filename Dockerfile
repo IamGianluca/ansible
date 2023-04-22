@@ -17,4 +17,4 @@ USER gianluca
 WORKDIR /home/gianluca
 
 COPY . .
-# RUN make playbook_local
+# RUN make playbook

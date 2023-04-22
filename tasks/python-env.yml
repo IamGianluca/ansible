@@ -22,3 +22,11 @@
 #
 # - name: Set Global Python Interpreter
 #   shell: pyenv global 3.10.7
+
+- name: Install Poetry
+  shell: curl -sSL https://install.python-poetry.org | python3 -
+
+# - name: Enable tab completion for oh-my-zsh 
+#   shell: "mkdir ~/.oh-my-zsh//custom/plugins/poetry && poetry completions zsh > ~/.oh-my-zsh/custom/plugins/poetry/_poetry"
+#   args:
+#     executable: /bin/zsh

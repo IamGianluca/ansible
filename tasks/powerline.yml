@@ -1,3 +1,8 @@
+- name: Install fonts-powerline
+  become: true
+  ansible.builtin.apt:
+    name: ['fonts-powerline']
+
 - name: Check if git directory exists
   stat:
    path: "{{ lookup('env', 'HOME') }}/git/"
