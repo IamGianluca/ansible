@@ -10,7 +10,7 @@ RUN apt-get install -y vim
 
 RUN addgroup --gid 1000 gianluca
 RUN adduser --gecos gianluca --uid 1000 --gid 1000 gianluca
-RUN echo "gianluca:newpass"|chpasswd
+RUN echo "gianluca:newpass" | chpasswd
 RUN adduser gianluca sudo
 
 USER gianluca
