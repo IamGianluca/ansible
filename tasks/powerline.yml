@@ -29,13 +29,13 @@
   ansible.builtin.apt:
     name: ['python3', 'python3-dev', 'python3-pip']
 
-- name: Run whoami without become.
+- name: Run whoami without become
   command: whoami
   changed_when: false
   become: false
   register: whoami
 
-- name: Set a fact with the user name.
+- name: Set a fact with the user name
   set_fact:
     login_user: "{{ whoami.stdout }}"
 
