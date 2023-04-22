@@ -22,7 +22,4 @@ pull:
 	ansible-pull -U https://github.com/iamgianluca/ansible.git -C $(BRANCH) --ask-become-pass
 
 playbook:
-	ansible-playbook local.yml
-
-playbook_local:
 	ansible-playbook local.yml --ask-become-pass
