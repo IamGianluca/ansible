@@ -6,3 +6,13 @@ If you are new to Ansible, here are a couple of good resources to get you starte
 
 - [How to manage your workstation configuration with Ansible](https://opensource.com/article/18/3/manage-workstation-ansible)
 - [Manage your workstation with Ansible: Automating configuration](https://opensource.com/article/18/3/manage-your-workstation-configuration-ansible-part-2#:~:text=Ansible%20is%20an%20amazing%20automation,the%20focus%20of%20this%20series.)
+
+# Usage
+
+Make sure `ansible` is installed in the host Operating System. Then, just run the following command on your terminal (no need to clone this repo):
+
+```bash
+ansible-pull -U https://github.com/iamgianluca/ansible.git --ask-become-pass
+```
+
+You will be asked to provide your password to complete some operations that require root privileges.

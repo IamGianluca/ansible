@@ -19,7 +19,7 @@ stop:
 	docker kill $(IMAGE)
 
 pull:
-	ansible-pull -U https://github.com/iamgianluca/ansible.git -C $(BRANCH)
+	ansible-pull -U https://github.com/iamgianluca/ansible.git -C $(BRANCH) --ask-become-pass
 
 playbook:
 	ansible-playbook local.yml
