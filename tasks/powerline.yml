@@ -46,4 +46,4 @@
 
 - name: Install powerline-shell
   become: true
-  shell: cd /home/{{ login_user }}/git/powerline-shell/ && python3 setup.py install
+  shell: "cd {{ lookup('env', 'HOME') }}/git/powerline-shell/ && python3 setup.py install"
