@@ -1,0 +1,10 @@
+- name: Add neovim unstable repository from PPA and install its signing key 
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:neovim-ppa/unstable
+
+- name: Install Neovim
+  become: true
+  ansible.builtin.apt:
+    name: ['neovim', 'python3-neovim']
+    update_cache: yes

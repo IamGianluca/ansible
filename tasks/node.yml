@@ -1,0 +1,5 @@
+- name: Install Node.js and npm
+  become: true
+  ansible.builtin.apt:
+    name: ['nodejs', 'npm']
+    update_cache: yes

@@ -10,4 +10,7 @@
     - include: tasks/zsh.yml
     - include: tasks/powerline.yml
     - include: tasks/dotfiles.yml
-    - include: tasks/python-env.yml
+    - include: tasks/python.yml
+    - include: tasks/rust.yml
+    - include: tasks/node.yml
+    - include: tasks/neovim.yml

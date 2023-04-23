@@ -1,6 +1,8 @@
 # this image is for testing some tasks before committing them to the main repo
 FROM ubuntu:jammy
 ARG DEBIAN_FRONTEND=noninteractive
+# https://github.com/ellisonleao/gruvbox.nvim/issues/185#issuecomment-1330044437
+ENV TERM screen-256color
 
 RUN apt-get update
 RUN apt-get install -y sudo
