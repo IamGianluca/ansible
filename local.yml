@@ -12,5 +12,5 @@
     - include: tasks/dotfiles.yml
     - include: tasks/python.yml
     - include: tasks/rust.yml
-    - include: tasks/node.yml
+    - include: tasks/nodejs.yml
     - include: tasks/neovim.yml

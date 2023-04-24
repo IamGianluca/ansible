@@ -6,6 +6,7 @@ If you are new to Ansible, here are a couple of good resources to get you starte
 
 - [How to manage your workstation configuration with Ansible](https://opensource.com/article/18/3/manage-workstation-ansible)
 - [Manage your workstation with Ansible: Automating configuration](https://opensource.com/article/18/3/manage-your-workstation-configuration-ansible-part-2#:~:text=Ansible%20is%20an%20amazing%20automation,the%20focus%20of%20this%20series.)
+- [Using Ansible to automate your laptop and desktop configs!](https://www.youtube.com/watch?v=gIDywsGBqf4&list=WL&index=34&t=1805s)
 
 # Usage
 
@@ -16,3 +17,10 @@ ansible-pull -U https://github.com/iamgianluca/ansible.git --ask-become-pass
 ```
 
 You will be asked to provide your password to complete some operations that require root privileges.
+
+# TODO
+
+- [ ] SSH keys
+- [ ] `import_tasks` instead of `include`
+- [ ] Manage passwords with `ansible-vault`
+- [ ] Support Mac OS host
