@@ -16,3 +16,7 @@
     - name: Update homebrew
       community.general.homebrew:
         update_homebrew: true
+  tasks:
+    - include: tasks/macos_neovim.yml
+    - include: tasks/macos_tmux.yml
+    - include: tasks/macos_mosh.yml
