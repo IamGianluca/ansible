@@ -1,0 +1,15 @@
+- hosts: localhost
+  pre_tasks:
+    - name: Check if homebrew is avaiable
+      block:
+        - name: try using homebrew in check_mode (no changes)
+          homebrew:
+            update_homebrew: true
+          check_mode: true
+        - name: Homebrew available
+          debug:
+            msg: Homebrew is installed
+      r:waescue:
+        - name: No homebrew
+          debug:
+            msg: Homebrew is not installed
