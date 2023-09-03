@@ -35,4 +35,3 @@ ansible-pull -U https://github.com/iamgianluca/ansible.git macos.yml
 - [ ] SSH keys
 - [ ] `import_tasks` instead of `include`
 - [ ] Manage passwords with `ansible-vault`
-- [ ] Support Mac OS host
