@@ -9,7 +9,7 @@
         - name: Homebrew available
           debug:
             msg: Homebrew is installed
-      r:waescue:
+      rescue:
         - name: No homebrew
           debug:
             msg: Homebrew is not installed
