@@ -1,0 +1,28 @@
+- name: Check if .oh-my-zsh directory exists
+  stat:
+   path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/"
+  register: my_folder
+
+- name: Echo if directory already existed
+  debug:
+    msg: "The oh-my-zsh directory already exist"
+  when: my_folder.stat.exists
+
+- name: Install Oh-My-Zsh if .oh-my-zsh directory does not exist
+  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
+  when: my_folder.stat.exists == false
+
+- name: Install zsh-autosuggestions
+  ansible.builtin.git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+
+- name: Install zsh-fzf-history-search
+  ansible.builtin.git:
+    repo: 'https://github.com/joshskidmore/zsh-fzf-history-search'
+    dest: "~/.oh-my-zsh/plugins/zsh-fzf-history-search"
+
+- name: Install zsh-syntax-highlighting
+  ansible.builtin.git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting'
+    dest: "~/.oh-my-zsh/plugins/zsh-syntax-highlighting"

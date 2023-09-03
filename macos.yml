@@ -10,13 +10,15 @@
           debug:
             msg: Homebrew is installed
       rescue:
-        - name: No homebrew
+        - name: Homebrew not available
           debug:
             msg: Homebrew is not installed
     - name: Update homebrew
       community.general.homebrew:
         update_homebrew: true
   tasks:
+    - import_tasks: tasks/macos_productivity_tools.yml
     - import_tasks: tasks/macos_neovim.yml
-    - import_tasks: tasks/macos_tmux.yml
-    - import_tasks: tasks/macos_mosh.yml
+    - import_tasks: tasks/macos_zsh.yml
+    - import_tasks: tasks/macos_powerline_shell.yml
+    - import_tasks: tasks/dotfiles.yml

@@ -1,0 +1,9 @@
+- name: Install Neovim
+  community.general.homebrew:
+    name: neovim
+    state: present
+
+- name: Install utils needed for Telescope
+  community.general.homebrew:
+    name: ripgrep,fd
+    state: present
