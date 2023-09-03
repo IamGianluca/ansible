@@ -13,3 +13,6 @@
         - name: No homebrew
           debug:
             msg: Homebrew is not installed
+    - name: Update homebrew
+      community.general.homebrew:
+        update_homebrew: true
