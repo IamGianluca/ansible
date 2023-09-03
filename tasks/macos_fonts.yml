@@ -1,0 +1,8 @@
+- name: Add tap for Hack Nerd fonts
+  community.general.homebrew_tap:
+    name: homebrew/cask-fonts
+
+- name: Install Hack Nerd fonts
+  community.general.homebrew:
+    name: font-hack-nerd-font
+    state: present

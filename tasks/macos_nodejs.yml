@@ -1,0 +1,4 @@
+- name: Install Nodejs and npm
+  community.general.homebrew:
+    name: node
+    state: present
