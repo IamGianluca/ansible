@@ -2,7 +2,7 @@
   pre_tasks:
     - name: Check if homebrew is avaiable
       block:
-        - name: try using homebrew in check_mode (no changes)
+        - name: Try using homebrew in check_mode (no changes)
           homebrew:
             update_homebrew: true
           check_mode: true
@@ -17,6 +17,6 @@
       community.general.homebrew:
         update_homebrew: true
   tasks:
-    - include: tasks/macos_neovim.yml
-    - include: tasks/macos_tmux.yml
-    - include: tasks/macos_mosh.yml
+    - import_tasks: tasks/macos_neovim.yml
+    - import_tasks: tasks/macos_tmux.yml
+    - import_tasks: tasks/macos_mosh.yml
