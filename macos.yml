@@ -24,4 +24,5 @@
     - import_tasks: tasks/macos_powerline_shell.yml
     - import_tasks: tasks/rust.yml
     - import_tasks: tasks/macos_nodejs.yml
+    - import_tasks: tasks/macos_python.yml
     - import_tasks: tasks/dotfiles.yml
