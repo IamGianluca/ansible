@@ -1,7 +1,7 @@
   - name: Install System Packages 1 (build tools)
     become: true
     ansible.builtin.apt:
-      name: ['build-essential', 'cmake']
+      name: ['build-essential', 'cmake', 'software-properties-common']
 
   - name: Install System Packages 2 (UNIX utils)
     become: true

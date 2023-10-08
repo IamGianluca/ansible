@@ -3,7 +3,7 @@
   register: cargo_exists
   ignore_errors: yes
 
-- name: Download Installer
+- name: Download Cargo Installer
   when: cargo_exists is failed
   get_url:
     url: https://sh.rustup.rs
