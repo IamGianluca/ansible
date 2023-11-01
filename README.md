@@ -10,7 +10,7 @@ If you are new to Ansible, here are a couple of good resources to get you starte
 
 # Usage
 
-Make sure `ansible` is installed in the host Operating System.
+Make sure `git` and `ansible` are installed in the host Operating System.
 
 #### Linux
 
