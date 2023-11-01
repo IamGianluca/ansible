@@ -6,7 +6,7 @@
   - name: Install System Packages 2 (UNIX utils)
     become: true
     ansible.builtin.apt:
-      name: ['unzip', 'curl', 'wget', 'unzip', 'tar', 'gzip', 'git', 'mosh']
+      name: ['unzip', 'curl', 'wget', 'unzip', 'tar', 'gzip', 'git', 'mosh', 'kitty']
 
   - name: Install System Packages 3 (Python)
     become: true
