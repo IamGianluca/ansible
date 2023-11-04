@@ -1,0 +1,4 @@
+  - name: Install GUI Tools
+    become: true
+    ansible.builtin.apt:
+      name: ['kitty']

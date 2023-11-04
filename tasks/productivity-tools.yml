@@ -1,4 +1,0 @@
-  - name: Install Productivity Tools
-    become: true
-    ansible.builtin.apt:
-      name: ['htop', 'tmux', 'tree', 'fzf', 'ripgrep', 'xclip']
