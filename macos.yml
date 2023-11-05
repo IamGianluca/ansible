@@ -1,3 +1,4 @@
+# this playbook is dedicated to mac os laptop host environments
 - hosts: localhost
   pre_tasks:
     - name: Check if homebrew is avaiable

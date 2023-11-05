@@ -1,3 +1,4 @@
+# this playbook is dedicated to ubuntu laptop host environments
 - hosts: localhost
   pre_tasks:
     - name: Update Apt
