@@ -1,0 +1,10 @@
+- name: Add tlp repository from PPA and install its signing key 
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:linrunner/tlp
+
+- name: Install tlp
+  become: true
+  ansible.builtin.apt:
+    name: ['tlp', 'tlp-rdw']
+    update_cache: yes
