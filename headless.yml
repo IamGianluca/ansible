@@ -11,6 +11,7 @@
     - include: tasks/powerline.yml
     - include: tasks/dotfiles.yml
     - include: tasks/tmux.yml
+    - include: tasks/nvtop.yml
     - include: tasks/python.yml
     - include: tasks/nodejs.yml
     - include: tasks/neovim.yml

@@ -1,7 +1,7 @@
-- name: Install Productivity Tools
+- name: Install tmux
   become: true
   ansible.builtin.apt:
-      name: ['htop', 'tmux', 'tree', 'fzf', 'ripgrep', 'xclip']
+      name: ['tmux']
 
 - name: Clone TPM (Tmux Plugin Manager)
   ansible.builtin.git:
