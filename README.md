@@ -12,12 +12,24 @@ If you are new to Ansible, here are a couple of good resources to get you starte
 
 Make sure `git` and `ansible` are installed in the host Operating System.
 
-#### Linux (Ubuntu)
+We support three type of installations: Ubuntu, Ubuntu headless, and MacOS.
+
+#### Ubuntu
 
 Run the following command on your terminal (no need to clone this repo):
 
 ```bash
 ansible-pull -U https://github.com/iamgianluca/ansible.git --ask-become-pass
+```
+
+You will be asked to provide your password to complete some operations that require root privileges.
+
+#### Ubuntu Headless
+
+Run the following command on your terminal (no need to clone this repo):
+
+```bash
+ansible-pull -U https://github.com/iamgianluca/ansible.git headless.yml --ask-become-pass
 ```
 
 You will be asked to provide your password to complete some operations that require root privileges.
