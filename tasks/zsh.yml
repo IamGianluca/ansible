@@ -6,8 +6,19 @@
   become: true
   shell: chsh -s $(which zsh)
 
+- name: Check if oh-my-zsh directory exists
+  stat:
+   path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/"
+  register: my_folder
+
+- name: Echo if directory already existed
+  debug:
+    msg: "Oh-My-Zsh directory already exist"
+  when: my_folder.stat.exists
+    
 - name: Oh-My-Zsh
   shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
+  when: my_folder.stat.exists == false
 
 - name: Install zsh-autosuggestions
   ansible.builtin.git:

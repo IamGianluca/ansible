@@ -12,6 +12,7 @@
     - include: tasks/zsh.yml
     - include: tasks/powerline.yml
     - include: tasks/dotfiles.yml
+    - include: tasks/tmux.yml
     - include: tasks/python.yml
     - include: tasks/rust.yml
     - include: tasks/nodejs.yml

@@ -1,0 +1,13 @@
+- name: Install Productivity Tools
+  become: true
+  ansible.builtin.apt:
+      name: ['htop', 'tmux', 'tree', 'fzf', 'ripgrep', 'xclip']
+
+- name: Clone TPM (Tmux Plugin Manager)
+  ansible.builtin.git:
+    repo: 'https://github.com/tmux-plugins/tpm'
+    dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
+    recursive: yes
+    update: yes
+    accept_hostkey: yes
+    version: master
