@@ -12,7 +12,7 @@ If you are new to Ansible, here are a couple of good resources to get you starte
 
 Make sure `git` and `ansible` are installed in the host Operating System.
 
-#### Linux
+#### Linux (Ubuntu)
 
 Run the following command on your terminal (no need to clone this repo):
 
@@ -28,6 +28,14 @@ Run the following command on your terminal (no need to clone this repo):
 
 ```bash
 ansible-pull -U https://github.com/iamgianluca/ansible.git macos.yml
+```
+
+# Development
+
+To test the changes before committing them, use `ansible-playbook` with the `--check` flag. For instance:
+
+```bash
+ansible-playbook local.yml --ask-become-pass --check
 ```
 
 # TODO
