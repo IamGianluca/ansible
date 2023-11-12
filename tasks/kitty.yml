@@ -1,0 +1,34 @@
+- name: Install Kitty terminal
+  become: true
+  ansible.builtin.apt:
+    name: ['kitty']
+
+- name: Install Hack fonts
+  become: true
+  ansible.builtin.apt:
+    name: ['fonts-hack-ttf']
+
+- name: Download Nerd Fonts Symbols Only
+  get_url:
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/NerdFontsSymbolsOnly.zip
+    dest: "{{ lookup('env', 'HOME') }}/Downloads/"
+    mode: '0755'
+    force: 'yes'
+
+- name: Unzip Nerd Fonts Symbols Only
+  shell: unzip "{{ lookup('env', 'HOME') }}/Downloads/NerdFontsSymbolsOnly.zip"
+
+- name: Check if .fonts directory exists
+  stat:
+   path: "{{ lookup('env', 'HOME') }}/.fonts/"
+  register: my_folder
+
+- name: Create .fonts folder if it does not exist
+  shell: mkdir "{{ lookup('env', 'HOME') }}/.fonts"
+  when: my_folder.stat.exists == false
+
+- name: Copy fonts to .fonts folder
+  shell: cp "{{ lookup('env', 'HOME') }}/Downloads/SymbolsNerdFontMono-Regular.ttf" "{{ lookup('env', 'HOME') }}/Downloads/SymbolsNerdFont-Regular.ttf" "{{ lookup('env', 'HOME') }}/.fonts/"
+
+- name: Install Nerd Fonts Symbols Only
+  shell: fc-cache -f -v

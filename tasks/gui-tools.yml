@@ -1,9 +1,0 @@
-  - name: Install Kitty terminal
-    become: true
-    ansible.builtin.apt:
-      name: ['kitty']
-
-  - name: Install Hack fonts
-    become: true
-    ansible.builtin.apt:
-      name: ['fonts-hack-ttf']

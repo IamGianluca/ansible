@@ -7,7 +7,7 @@
       changed_when: False
   tasks:
     - include: tasks/core-packages.yml
-    - include: tasks/gui-tools.yml
+    - include: tasks/kitty.yml
     - include: tasks/battery.yml
     - include: tasks/zsh.yml
     - include: tasks/powerline.yml
