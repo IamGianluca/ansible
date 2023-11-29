@@ -6,14 +6,14 @@
       apt: update_cache=yes
       changed_when: False
   tasks:
-    - include: tasks/core-packages.yml
-    - include: tasks/kitty.yml
-    - include: tasks/battery.yml
-    - include: tasks/zsh.yml
-    - include: tasks/powerline.yml
-    - include: tasks/dotfiles.yml
-    - include: tasks/tmux.yml
-    - include: tasks/python.yml
-    - include: tasks/rust.yml
-    - include: tasks/nodejs.yml
-    - include: tasks/neovim.yml
+    - import_tasks: tasks/core-packages.yml
+    - import_tasks: tasks/kitty.yml
+    - import_tasks: tasks/battery.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/powerline.yml
+    - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/tmux.yml
+    - import_tasks: tasks/python.yml
+    - import_tasks: tasks/rust.yml
+    - import_tasks: tasks/nodejs.yml
+    - import_tasks: tasks/neovim.yml

@@ -6,12 +6,12 @@
       apt: update_cache=yes
       changed_when: False
   tasks:
-    - include_tasks: tasks/core-packages.yml
-    - include_tasks: tasks/zsh.yml
-    - include_tasks: tasks/powerline.yml
-    - include_tasks: tasks/dotfiles.yml
-    - include_tasks: tasks/tmux.yml
-    - include_tasks: tasks/nvtop.yml
-    - include_tasks: tasks/python.yml
-    - include_tasks: tasks/nodejs.yml
-    - include_tasks: tasks/neovim.yml
+    - import_tasks: tasks/core-packages.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/powerline.yml
+    - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/tmux.yml
+    - import_tasks: tasks/nvtop.yml
+    - import_tasks: tasks/python.yml
+    - import_tasks: tasks/nodejs.yml
+    - import_tasks: tasks/neovim.yml
