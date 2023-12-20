@@ -7,6 +7,7 @@
       changed_when: False
   tasks:
     - import_tasks: tasks/core-packages.yml
+    - import_tasks: tasks/profiling_gui.yml
     - import_tasks: tasks/kitty.yml
     - import_tasks: tasks/battery.yml
     - import_tasks: tasks/zsh.yml

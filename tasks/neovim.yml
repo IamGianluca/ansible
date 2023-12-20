@@ -8,3 +8,8 @@
   ansible.builtin.apt:
     name: ['neovim', 'python3-neovim']
     update_cache: yes
+
+- name: Install Extra Dependencies
+  become: true
+  ansible.builtin.apt:
+    name: ['ripgrep', 'fd-find']

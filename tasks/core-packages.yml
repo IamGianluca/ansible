@@ -21,4 +21,9 @@
   - name: Install Productivity Tools
     become: true
     ansible.builtin.apt:
-      name: ['htop', 'tree', 'fzf', 'ripgrep', 'xclip']
+      name: ['htop', 'tree', 'fzf', 'xclip']
+
+  - name: Install Profiling Tools
+    become: true
+    ansible.builtin.apt:
+      name: ['perf']
