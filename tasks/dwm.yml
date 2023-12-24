@@ -1,0 +1,14 @@
+- name: Pull dwm-flexipatch repository
+  ansible.builtin.git:
+    repo: 'https://github.com/bakkeby/dwm-flexipatch.git'
+    dest: "~/git/dwm-flexipatch"
+
+- name: Build dwm-flexipatch
+  become: true
+  shell: make clean install
+
+# needed to control and mute volume via XF86 keys
+- name: Install PulseAudio
+  become: true
+  ansible.builtin.apt:
+    name: ['pulseaudio']
