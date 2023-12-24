@@ -12,3 +12,20 @@
   become: true
   ansible.builtin.apt:
     name: ['pulseaudio']
+
+# needed to control display brightness via XF86 keys
+- name: Install brightnessctl
+  become: true
+  ansible.builtin.apt:
+    name: ['brightnessctl']
+
+- name: Register username for following task
+  command: whoami
+  changed_when: false
+  become: false
+  register: whoami
+
+- name: Add user to video group to enable changing display brightness without sudo 
+  ansible.builtin.user:
+    name: "{{ whoami.stout }}"
+    group: video
