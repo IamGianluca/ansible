@@ -3,9 +3,16 @@
     repo: 'https://github.com/bakkeby/dwm-flexipatch.git'
     dest: "~/git/dwm-flexipatch"
 
+- name: Install requirements for DWM
+  become: true
+  ansible.builtin.apt:
+    name: ['libx11-dev', 'libxft-dev', 'libxinerama-dev']
+
 - name: Build dwm-flexipatch
   become: true
-  shell: make clean install
+  command: make clean install 
+  args:
+    chdir: /home/gianluca/git/dwm-flexipatch
 
 # needed to control and mute volume via XF86 keys
 - name: Install PulseAudio
@@ -26,6 +33,7 @@
   register: whoami
 
 - name: Add user to video group to enable changing display brightness without sudo 
+  become: true
   ansible.builtin.user:
-    name: "{{ whoami.stout }}"
+    name: gianluca
     group: video
