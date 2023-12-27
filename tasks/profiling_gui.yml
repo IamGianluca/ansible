@@ -1,4 +1,0 @@
-  - name: Install Hotspot (UI to inspect perf files)
-    become: true
-    ansible.builtin.apt:
-      name: ['hotspot']

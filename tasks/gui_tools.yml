@@ -1,0 +1,9 @@
+  - name: Install GUI tools
+    become: true
+    ansible.builtin.apt:
+      name: ['redshift', 'feh']
+
+  - name: Install programming GUI tools
+    become: true
+    ansible.builtin.apt:
+      name: ['hotspot']
