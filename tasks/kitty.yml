@@ -16,7 +16,7 @@
     force: 'yes'
 
 - name: Unzip Nerd Fonts Symbols Only
-  shell: unzip "{{ lookup('env', 'HOME') }}/Downloads/NerdFontsSymbolsOnly.zip"
+  shell: unzip -o "{{ lookup('env', 'HOME') }}/Downloads/NerdFontsSymbolsOnly.zip" -d "{{ lookup('env', 'HOME') }}/Downloads/"
 
 - name: Check if .fonts directory exists
   stat:

@@ -26,4 +26,4 @@
   - name: Install Profiling Tools
     become: true
     ansible.builtin.apt:
-      name: ['perf']
+      name: ['linux-tools-common', 'linux-tools-generic']
