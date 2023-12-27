@@ -2,6 +2,7 @@
   become: true
   apt: name=zsh
     
+# todo: does not work when running in ansible
 - name: Change shell to zsh
   become: true
   shell: chsh -s $(which zsh)
