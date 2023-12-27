@@ -39,7 +39,6 @@
     name: gianluca
     group: video
 
-
 - name: Pull dmenu-flexipatch repository
   ansible.builtin.git:
     repo: 'https://github.com/bakkeby/dmenu-flexipatch.git'
@@ -50,3 +49,14 @@
   command: make clean install
   args:
     chdir: /home/gianluca/git/dmenu-flexipatch
+
+- name: Pull dwmblocks-async repository
+  ansible.builtin.git:
+    repo: 'https://github.com/UtkarshVerma/dwmblocks-async.git'
+    dest: "~/git/dwmblocks-async"
+
+- name: Build dwmblocks-async
+  become: true
+  command: make install
+  args:
+    chdir: /home/gianluca/git/dwmblocks-async
