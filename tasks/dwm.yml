@@ -55,6 +55,11 @@
     repo: 'https://github.com/UtkarshVerma/dwmblocks-async.git'
     dest: "~/git/dwmblocks-async"
 
+- name: Install dwmblocks-async requirements
+  become: true
+  ansible.builtin.apt:
+    name: ['xcb-util']
+
 - name: Build dwmblocks-async
   become: true
   command: make install
