@@ -7,3 +7,8 @@
     become: true
     ansible.builtin.apt:
       name: ['hotspot']
+
+  - name: Install LibreOffice
+    become: true
+    ansible.builtin.apt:
+      name: ['libreoffice']
