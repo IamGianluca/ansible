@@ -1,7 +1,7 @@
   - name: Install GUI tools
     become: true
     ansible.builtin.apt:
-      name: ['redshift', 'feh']
+      name: ['redshift', 'feh', 'flameshot']
 
   - name: Install programming GUI tools
     become: true
