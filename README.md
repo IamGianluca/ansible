@@ -14,7 +14,7 @@ Make sure `git` and `ansible` are installed in the host Operating System.
 
 We support three type of installations: Ubuntu, Ubuntu headless, and MacOS.
 
-#### Ubuntu
+### Ubuntu
 
 Run the following command on your terminal (no need to clone this repo):
 
@@ -24,7 +24,7 @@ ansible-pull -U https://github.com/iamgianluca/ansible.git --ask-become-pass
 
 You will be asked to provide your password to complete some operations that require root privileges.
 
-#### Ubuntu Headless
+### Ubuntu Headless
 
 Run the following command on your terminal (no need to clone this repo):
 
@@ -34,7 +34,7 @@ ansible-pull -U https://github.com/iamgianluca/ansible.git headless.yml --ask-be
 
 You will be asked to provide your password to complete some operations that require root privileges.
 
-#### MacOS 
+### MacOS 
 
 Run the following command on your terminal (no need to clone this repo):
 
@@ -52,6 +52,7 @@ ansible-playbook local.yml --ask-become-pass --check
 
 # TODO
 
-- [ ] SSH keys
-- [ ] `import_tasks` instead of `include`
-- [ ] Manage passwords with `ansible-vault`
+- [ ] Compile DWM after having overwritten the config files
+- [ ] Store config files for Chrome and other frequently used tools
+- [ ] Use `ansible-vault` to manage SSH keys
+- [ ] Use `ansible-vault` to manage passwords
