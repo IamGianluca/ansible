@@ -6,7 +6,7 @@
 - name: Install Neovim
   become: true
   ansible.builtin.apt:
-    name: ['neovim', 'python3-neovim']
+    name: ['neovim', 'python3-neovim', 'python3-venv']
     update_cache: yes
 
 - name: Install Extra Dependencies
