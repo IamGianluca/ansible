@@ -22,7 +22,7 @@
     # - import_tasks: tasks/macos_fonts.yml
     - import_tasks: tasks/macos_neovim.yml
     - import_tasks: tasks/macos_zsh.yml
-    - import_tasks: tasks/macos_powerline_shell.yml
+    # - import_tasks: tasks/macos_powerline_shell.yml
     - import_tasks: tasks/rust.yml
     - import_tasks: tasks/macos_nodejs.yml
     - import_tasks: tasks/macos_python.yml

@@ -8,7 +8,6 @@
   tasks:
     - import_tasks: tasks/core-packages.yml
     - import_tasks: tasks/zsh.yml
-    - import_tasks: tasks/powerline.yml
     - import_tasks: tasks/dotfiles.yml
     - import_tasks: tasks/tmux.yml
     - import_tasks: tasks/nvtop.yml
