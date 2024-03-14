@@ -1,5 +1,11 @@
-- name: Install Node.js and npm
-  become: true
-  ansible.builtin.apt:
-    name: ['nodejs', 'npm']
+- name: Add NodeSource repository
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main"
+    state: present
     update_cache: yes
+    filename: nodesource
+
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
