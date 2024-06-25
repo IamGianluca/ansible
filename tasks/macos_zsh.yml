@@ -12,6 +12,12 @@
   shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
   when: my_folder.stat.exists == false
 
+- name: Install powerlevel10k
+  ansible.builtin.git:
+    repo: "https://github.com/romkatv/powerlevel10k.git"
+    dest: "~/.oh-my-zsh/custom/themes/powerlevel10k"
+    depth: 1
+      
 - name: Install zsh-autosuggestions
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
