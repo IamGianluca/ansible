@@ -10,3 +10,6 @@
 
 - name: Install Poetry
   shell: curl -sSL https://install.python-poetry.org | sed 's/symlinks=False/symlinks=True/' | python3 -
+
+- name: Install uv package manager
+  shell: curl -LsSf https://astral.sh/uv/install.sh | sh

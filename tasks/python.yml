@@ -30,3 +30,6 @@
 #   shell: "mkdir ~/.oh-my-zsh//custom/plugins/poetry && poetry completions zsh > ~/.oh-my-zsh/custom/plugins/poetry/_poetry"
 #   args:
 #     executable: /bin/zsh
+
+- name: Install uv package manager
+  shell: curl -LsSf https://astral.sh/uv/install.sh | sh
