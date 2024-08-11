@@ -1,15 +1,16 @@
-- name: Add NodeSource GPG key
-  become: yes
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
-
-- name: Add NodeSource repository
-  apt_repository:
-    repo: "deb https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main"
-    state: present
-    update_cache: yes
-    filename: nodesource
+# - name: Add NodeSource GPG key
+#   become: yes
+#   apt_key:
+#     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+#     state: present
+#
+# - name: Add NodeSource repository
+#   become: yes
+#   apt_repository:
+#     repo: "deb https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main"
+#     state: present
+#     update_cache: yes
+#     filename: nodesource
 
 - name: Install Node.js
   apt:
