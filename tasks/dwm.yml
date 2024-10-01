@@ -54,6 +54,9 @@
   ansible.builtin.git:
     repo: 'https://github.com/UtkarshVerma/dwmblocks-async.git'
     dest: "~/git/dwmblocks-async"
+    # This is required because the dwmblocks-async repo comes with a default
+    # config.h file. We need to let git overwrite our local config.h if existing.
+    force: true
 
 # - name: Install dwmblocks-async requirements
 #   become: true

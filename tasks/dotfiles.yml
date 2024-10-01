@@ -4,6 +4,10 @@
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
     recursive: yes
     update: yes
+    # We are explicitly not overwriting existing local changes to the dotfiles
+    # to prevent accidentally removing important changes. If local changes exist,
+    # this command will fail.
+    force: false
     accept_hostkey: yes
     version: main
 
