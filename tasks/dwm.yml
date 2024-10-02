@@ -58,13 +58,5 @@
     # config.h file. We need to let git overwrite our local config.h if existing.
     force: true
 
-# - name: Install dwmblocks-async requirements
-#   become: true
-#   ansible.builtin.apt:
-#     name: ['xcb-util']
-
-- name: Build dwmblocks-async
-  become: true
-  command: make install
-  args:
-    chdir: /home/gianluca/git/dwmblocks-async
+# We are building dwmblocks-async after having installed our 
+# dotfiles. See dwm_part2.yml playbook.

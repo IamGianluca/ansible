@@ -1,0 +1,11 @@
+# Build dwmblocks-async after dotfiles installation
+# Rationale: dwmblocks-async ships with a default config.h file. Our dotfiles 
+# contain custom block configurations. By building dwmblocks-async after 
+# installing our dotfiles, we ensure that our custom blocks are incorporated 
+# into the build. This order prevents the default configuration from 
+# overriding our customized one.
+- name: Build dwmblocks-async
+  become: true
+  command: make install
+  args:
+    chdir: /home/gianluca/git/dwmblocks-async
