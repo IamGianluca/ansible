@@ -37,11 +37,6 @@
     repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
     dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
 
-- name: Install zsh-fzf-history-search
-  ansible.builtin.git:
-    repo: "https://github.com/joshskidmore/zsh-fzf-history-search"
-    dest: "~/.oh-my-zsh/plugins/zsh-fzf-history-search"
-
 - name: Install zsh-syntax-highlighting
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-syntax-highlighting"
