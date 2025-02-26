@@ -1,4 +1,4 @@
 - name: Install Productivity Tools
   community.general.homebrew:
-    name: htop,tmux,mosh,tree,fzf,ripgrep,xclip,wget,direnv
+    name: htop,tmux,mosh,tree,fzf,ripgrep,xclip,wget,direnv,ghostty
     state: present
