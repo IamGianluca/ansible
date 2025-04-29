@@ -12,5 +12,14 @@
     version: main
 
 - name: Install dotfiles
-  shell: cd $HOME/.dotfiles && ./install
-  ignore_errors: true
+  ansible.builtin.shell: cd $HOME/.dotfiles && ./install
+  register: dotfiles_result
+  changed_when: "'All commands have been executed' in dotfiles_result.stdout"
+  # We need to ignore errors because the script returns exit code 1
+  # even when it completes most tasks successfully with only some links missing
+  failed_when: false
+  
+- name: Display dotfiles installation results
+  ansible.builtin.debug:
+    msg: "{{ dotfiles_result.stdout_lines }}"
+  when: dotfiles_result.stdout is defined
