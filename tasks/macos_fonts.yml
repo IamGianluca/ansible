@@ -1,4 +1,0 @@
-- name: Install Hack Nerd fonts
-  community.general.homebrew:
-    name: font-hack-nerd-font
-    state: present
