@@ -1,4 +1,33 @@
-- name: Install Productivity Tools
+- name: Install terminal utilities
   community.general.homebrew:
-    name: htop,tmux,mosh,tree,fzf,ripgrep,xclip,wget,direnv,ghostty
+    name: 
+      - htop     
+      - tmux     
+      - tree     
+    state: present
+
+- name: Install remote access tools
+  community.general.homebrew:
+    name: 
+      - mosh     
+    state: present
+
+- name: Install search and navigation tools
+  community.general.homebrew:
+    name: 
+      - fzf      
+      - ripgrep  
+    state: present
+
+- name: Install file transfer and clipboard utilities
+  community.general.homebrew:
+    name: 
+      - xclip    
+      - wget     
+    state: present
+
+- name: Install development environment tools
+  community.general.homebrew:
+    name: 
+      - direnv   
     state: present

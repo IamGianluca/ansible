@@ -1,29 +1,55 @@
-  - name: Install System Packages 1 (build tools)
-    become: true
-    ansible.builtin.apt:
-      name: ['build-essential', 'cmake', 'software-properties-common']
+- name: Install development & build tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - build-essential  
+      - cmake            
+      - git              
+    state: present
 
-  - name: Install System Packages 2 (UNIX utils)
-    become: true
-    ansible.builtin.apt:
-      name: ['unzip', 'curl', 'wget', 'unzip', 'tar', 'gzip', 'git']
+- name: Install system utilities
+  become: true
+  ansible.builtin.apt:
+    name:
+      - software-properties-common  
+      - unzip                       
+      - curl                        
+      - wget                        
+      - tar                         
+      - gzip                        
+      - htop                        
+      - tree                        
+    state: present
 
-  - name: Install System Packages 2 (networking)
-    become: true
-    ansible.builtin.apt:
-      name: ['mosh']
+- name: Install networking tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - mosh                        
+      - xclip                       
+    state: present
 
-  - name: Install System Packages 3 (Python)
-    become: true
-    ansible.builtin.apt:
-      name: ['python3', 'python3-dev', 'python3-pip']
+- name: Install Python development environment
+  become: true
+  ansible.builtin.apt:
+    name:
+      - python3                     
+      - python3-dev                 
+      - python3-pip                 
+    state: present
 
-  - name: Install Productivity Tools
-    become: true
-    ansible.builtin.apt:
-      name: ['htop', 'tree', 'fzf', 'xclip', 'direnv']
+- name: Install productivity & workflow tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - fzf                         
+      - direnv                      
+    state: present
 
-  - name: Install Profiling Tools
-    become: true
-    ansible.builtin.apt:
-      name: ['linux-tools-common', 'linux-tools-generic']
+- name: Install performance & profiling tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - linux-tools-common          
+      - linux-tools-generic         
+    state: present

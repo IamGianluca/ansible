@@ -1,0 +1,4 @@
+- name: Install Ghostty terminal emulator
+  community.general.homebrew:
+    name: ghostty
+    state: present

@@ -1,4 +1,4 @@
-# this playbook is dedicated to mac os laptop host environments
+# This playbook is dedicated to MacOS laptop host environments
 - hosts: localhost
   pre_tasks:
     - name: Check if homebrew is avaiable
@@ -19,6 +19,7 @@
         update_homebrew: true
   tasks:
     - import_tasks: tasks/macos_productivity_tools.yml
+    - import_tasks: tasks/macos_terminal.yml
     - import_tasks: tasks/macos_fonts.yml
     - import_tasks: tasks/macos_neovim.yml
     - import_tasks: tasks/macos_zsh.yml
