@@ -1,20 +1,38 @@
-- name: Check if Cargo is Installed
-  shell: command -v cargo
+- name: Check if Cargo is installed
+  ansible.builtin.shell: command -v cargo
   register: cargo_exists
+  changed_when: false  # This won't change the system
   ignore_errors: yes
-
-- name: Download Cargo Installer
-  when: cargo_exists is failed
-  get_url:
-    url: https://sh.rustup.rs
-    dest: /tmp/sh.rustup.rs
-    mode: '0755'
-    force: 'yes'
   tags:
+    - rust
+    - rustup
+
+- name: Download rustup installer
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/rustup.sh
+    mode: '0755'
+    force: yes
+  when: cargo_exists is failed
+  tags:
+    - rust
     - rustup
 
 - name: Install Rust and Cargo
+  ansible.builtin.shell: /tmp/rustup.sh -y
+  args:
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/cargo"  # Ensures idempotence
+  register: rustup_result
   when: cargo_exists is failed
-  shell: /tmp/sh.rustup.rs -y
   tags:
     - rust
+    - rustup
+
+- name: Set Rust environment for current session
+  ansible.builtin.shell: source "{{ ansible_env.HOME }}/.cargo/env"
+  args:
+    executable: /bin/bash
+  when: rustup_result.changed | default(false)
+  tags:
+    - rust
+    - rustup
