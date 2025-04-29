@@ -1,6 +1,6 @@
-  - name: Install Ghostty terminal emulator
-    become: true
-    community.general.snap:
-      name: ghostty
-      classic: yes
-      state: present
+- name: Install Ghostty terminal emulator
+  become: true
+  community.general.snap:
+    name: ghostty
+    classic: yes
+    state: present
