@@ -1,43 +1,104 @@
 - name: Install ZSH
   become: true
-  apt: name=zsh
-    
-# TODO: does not work when running in ansible
-- name: Change shell to zsh
+  apt:
+    name: zsh
+    state: present
+    update_cache: yes
+  tags: 
+    - zsh
+    - packages
+
+- name: Get user's current shell
+  shell: echo $SHELL
+  register: current_shell
+  changed_when: false
+  tags:
+    - zsh
+    - shell
+
+- name: Change shell to zsh for current user
   become: true
-  shell: chsh -s $(which zsh)
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/zsh
+  when: current_shell.stdout != '/bin/zsh'
+  tags:
+    - zsh
+    - shell
 
 - name: Check if oh-my-zsh directory exists
   stat:
-   path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/"
-  register: my_folder
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/"
+  register: oh_my_zsh_dir
+  tags:
+    - zsh
+    - oh-my-zsh
 
-- name: Echo if directory already existed
-  debug:
-    msg: "Oh-My-Zsh directory already exist"
-  when: my_folder.stat.exists
-    
-- name: Oh-My-Zsh
-  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
-  when: my_folder.stat.exists == false
+- name: Download Oh-My-Zsh installer
+  get_url:
+    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh-installer"
+    mode: '0755'
+  when: not oh_my_zsh_dir.stat.exists
+  tags:
+    - zsh
+    - oh-my-zsh
 
-- name: Install powerlevel10k
-  ansible.builtin.git:
+- name: Install Oh-My-Zsh
+  shell: "{{ ansible_env.HOME }}/.oh-my-zsh-installer --unattended"
+  args:
+    creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+  when: not oh_my_zsh_dir.stat.exists
+  tags:
+    - zsh
+    - oh-my-zsh
+
+- name: Remove Oh-My-Zsh installer
+  file:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh-installer"
+    state: absent
+  tags:
+    - zsh
+    - oh-my-zsh
+
+- name: Create ZSH custom themes directory
+  file:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes"
+    state: directory
+    mode: '0755'
+  tags:
+    - zsh
+    - themes
+
+- name: Create ZSH custom plugins directory
+  file:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins"
+    state: directory
+    mode: '0755'
+  tags:
+    - zsh
+    - plugins
+
+- name: Install powerlevel10k theme
+  git:
     repo: "https://github.com/romkatv/powerlevel10k.git"
-    dest: "~/.oh-my-zsh/custom/themes/powerlevel10k"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
     depth: 1
-      
-- name: Install zsh-vi-mode
-  ansible.builtin.git:
-    repo: "https://github.com/jeffreytse/zsh-vi-mode"
-    dest: "~/.oh-my-zsh/custom/plugins/zsh-vi-mode"
+    update: yes
+  tags:
+    - zsh
+    - themes
 
-- name: Install zsh-autosuggestions
-  ansible.builtin.git:
-    repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
-    dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-
-- name: Install zsh-syntax-highlighting
-  ansible.builtin.git:
-    repo: "https://github.com/zsh-users/zsh-syntax-highlighting"
-    dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+- name: Install ZSH plugins
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/{{ item.name }}"
+    depth: 1
+    update: yes
+  loop:
+    - { name: zsh-vi-mode, repo: https://github.com/jeffreytse/zsh-vi-mode }
+    - { name: zsh-autosuggestions, repo: https://github.com/zsh-users/zsh-autosuggestions }
+    - { name: zsh-syntax-highlighting, repo: https://github.com/zsh-users/zsh-syntax-highlighting }
+  tags:
+    - zsh
+    - plugins
