@@ -13,7 +13,7 @@
     - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/tmux.yml
     - import_tasks: tasks/dwm.yml
-    - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/dotfiles_ssh.yml
     - import_tasks: tasks/dwm_part2.yml
     - import_tasks: tasks/python.yml
     - import_tasks: tasks/rust.yml
