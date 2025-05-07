@@ -2,7 +2,6 @@
   community.general.homebrew:
     name: 
       - htop     
-      - tmux     
       - tree     
     state: present
 

@@ -19,6 +19,7 @@
         update_homebrew: true
   tasks:
     - import_tasks: tasks/macos_productivity_tools.yml
+    - import_tasks: tasks/macos_tmux.yml
     - import_tasks: tasks/macos_terminal.yml
     - import_tasks: tasks/macos_neovim.yml
     - import_tasks: tasks/macos_zsh.yml
