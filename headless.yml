@@ -12,5 +12,7 @@
     - import_tasks: tasks/tmux.yml
     - import_tasks: tasks/nvtop.yml
     - import_tasks: tasks/python.yml
+    - import_tasks: tasks/rust.yml
     - import_tasks: tasks/nodejs.yml
     - import_tasks: tasks/neovim.yml
+    - import_tasks: tasks/jujutsu.yml  # requires rust

@@ -1,0 +1,7 @@
+- name: Install jujutsu (jj) from stable release
+  ansible.builtin.shell: |
+    source {{ ansible_env.HOME }}/.cargo/env
+    cargo install --locked --bin jj jj-cli
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/jj"
