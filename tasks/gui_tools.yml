@@ -1,4 +1,4 @@
-- name: Install GUI tools
+- name: Install basic GUI tools
   become: true
   ansible.builtin.apt:
     name: ['redshift', 'feh', 'flameshot']
@@ -13,7 +13,7 @@
   ansible.builtin.apt:
     name: ['libreoffice']
 
-# Brave browser installation steps
+# Install Brave browser from official APT repository
 - name: Add Brave browser GPG key
   become: true
   ansible.builtin.get_url:
