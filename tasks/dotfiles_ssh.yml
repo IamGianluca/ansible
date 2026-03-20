@@ -3,11 +3,11 @@
     repo: 'git@github.com:IamGianluca/dotfiles.git'
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
     recursive: yes
-    update: yes
-    # We are explicitly not overwriting existing local changes to the dotfiles
-    # to prevent accidentally removing important changes. If local changes exist,
-    # this command will fail.
-    force: false
+    # Do not update the dotfiles project if already installed locally, to avoid 
+    # losing local changes. This will also prevent conflicts caused by jj 
+    # (jujutsu-svc). jj maintains a working copy commit, that always appear as 
+    # local modifications. 
+    update: no
     accept_hostkey: yes
     version: main
     key_file: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"  # Specify your SSH key

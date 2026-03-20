@@ -9,7 +9,12 @@
     name: ['neovim', 'python3-neovim', 'python3-venv']
     update_cache: yes
 
-- name: Install Extra Dependencies
+- name: Install extra Dependencies for Telescope
   become: true
   ansible.builtin.apt:
     name: ['ripgrep', 'fd-find']
+
+- name: Install tree-sitter-cli for nvim-treesitter (requires Cargo)
+  community.general.cargo:
+    name: tree-sitter-cli
+    locked: true
