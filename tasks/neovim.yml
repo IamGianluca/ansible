@@ -14,6 +14,17 @@
   ansible.builtin.apt:
     name: ['ripgrep', 'fd-find']
 
+- name: Find fdfind path
+  ansible.builtin.command: which fdfind
+  register: fdfind_path
+  changed_when: false
+
+- name: Create fd symlink (fd-find installs as fdfind on Debian/Ubuntu)
+  ansible.builtin.file:
+    src: "{{ fdfind_path.stdout }}"
+    dest: ~/.local/bin/fd
+    state: link
+
 - name: Install tree-sitter-cli for nvim-treesitter (requires Cargo)
   community.general.cargo:
     name: tree-sitter-cli
