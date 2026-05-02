@@ -7,9 +7,12 @@
       changed_when: False
   tasks:
     - import_tasks: tasks/core-packages.yml
+    - import_tasks: tasks/docker.yml
+    - import_tasks: tasks/nvidia-container-toolkit.yml
     - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/dotfiles_https.yml
     - import_tasks: tasks/tmux.yml
+    - import_tasks: tasks/nvidia.yml
     - import_tasks: tasks/nvtop.yml
     - import_tasks: tasks/python.yml
     - import_tasks: tasks/rust.yml

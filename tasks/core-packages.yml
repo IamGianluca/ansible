@@ -25,8 +25,7 @@
   become: true
   ansible.builtin.apt:
     name:
-      - mosh                        
-      - xclip                       
+      - mosh
     state: present
 
 - name: Install Python development environment

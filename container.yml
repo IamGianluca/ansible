@@ -7,6 +7,7 @@
       changed_when: False
   tasks:
     - import_tasks: tasks/core-packages.yml
+    - import_tasks: tasks/nvidia.yml
     - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/powerline.yml
     - import_tasks: tasks/dotfiles.yml

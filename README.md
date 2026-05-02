@@ -4,9 +4,9 @@ Ansible playbooks for setting up personal environments.
 
 | File | Target | Description |
 |---|---|---|
-| `local.yml` | Ubuntu Desktop (laptop) | Core packages, GUI tools, dwm, ghostty, zsh, tmux, neovim, dev toolchains |
-| `headless.yml` | Ubuntu Server | Core packages, zsh, tmux, neovim, dev toolchains, nvtop, jj |
-| `container.yml` | Ubuntu Docker | Minimal setup: zsh, tmux, neovim, nodejs |
+| `local.yml` | Ubuntu Desktop (laptop) | Core packages, Docker, GUI tools, dwm, ghostty, zsh, tmux, neovim, dev toolchains |
+| `headless.yml` | Ubuntu Server | Core packages, Docker, NVIDIA driver + CUDA + Container Toolkit, zsh, tmux, neovim, dev toolchains, nvtop, jj |
+| `container.yml` | Ubuntu Docker | NVIDIA driver + CUDA, zsh, tmux, neovim, nodejs |
 | `macos.yml` | macOS Desktop | Homebrew packages, ghostty, tmux, neovim, dev toolchains |
 
 ## Usage
@@ -36,5 +36,15 @@ make pull              # ansible-pull from main branch
 Dry-run a playbook before committing:
 
 ```bash
-ansible-playbook local.yml --ask-become-pass --check
+PLAYBOOK=<playbook name> make dry_run
+```
+
+Test in a disposable Ubuntu container (requires Docker):
+
+```bash
+make build          # build the sandbox container
+make run            # shell into it
+make playbook       # run local.yml inside the container
+make restart        # rebuild + re-enter (after changing a task)
+make stop           # kill the container
 ```
