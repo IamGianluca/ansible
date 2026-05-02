@@ -1,66 +1,40 @@
-Ansible is a software tool that provides simple but powerful automation for cross-platform computer support. 
+Ansible playbooks for setting up personal environments.
 
-In our case, we are using Ansible to create simple playbooks to rapidly set up host Operating Systems and Docker containers (e.g., installing frequently used packages, dotfiles, etc.) and to store encrypted passwords and SSH keys and secrets. The idea is to have simple playbooks we can use to quickly set up the OS, instead of wasting hours doing this manually.
+## Playbooks
 
-If you are new to Ansible, here are a couple of good resources to get you started
+| File | Target | Description |
+|---|---|---|
+| `local.yml` | Ubuntu Desktop (laptop) | Core packages, GUI tools, dwm, ghostty, zsh, tmux, neovim, dev toolchains |
+| `headless.yml` | Ubuntu Server | Core packages, zsh, tmux, neovim, dev toolchains, nvtop, jj |
+| `container.yml` | Ubuntu Docker | Minimal setup: zsh, tmux, neovim, nodejs |
+| `macos.yml` | macOS Desktop | Homebrew packages, ghostty, tmux, neovim, dev toolchains |
 
-- [How to manage your workstation configuration with Ansible](https://opensource.com/article/18/3/manage-workstation-ansible)
-- [Manage your workstation with Ansible: Automating configuration](https://opensource.com/article/18/3/manage-your-workstation-configuration-ansible-part-2#:~:text=Ansible%20is%20an%20amazing%20automation,the%20focus%20of%20this%20series.)
-- [Using Ansible to automate your laptop and desktop configs!](https://www.youtube.com/watch?v=gIDywsGBqf4&list=WL&index=34&t=1805s)
+## Usage
 
-# Usage
+Run via `ansible-pull` (no clone needed) or from a local checkout.
 
-Make sure `git` and `ansible` are installed in the host Operating System.
-
-We support four type of installations: Ubuntu, Ubuntu headless, and MacOS.
-
-### Ubuntu
-
-Run the following command on your terminal (no need to clone this repo):
+### Remote pull
 
 ```bash
-ansible-pull -U https://github.com/iamgianluca/ansible.git --ask-become-pass
+ansible-pull -U https://github.com/iamgianluca/ansible.git local.yml --ask-become-pass       # Ubuntu Desktop
+ansible-pull -U https://github.com/iamgianluca/ansible.git headless.yml --ask-become-pass    # Ubuntu Server
+ansible-pull -U https://github.com/iamgianluca/ansible.git container.yml                     # Docker Container
+ansible-pull -U https://github.com/iamgianluca/ansible.git macos.yml                         # macOS Desktop
 ```
 
-You will be asked to provide your password to complete some operations that require root privileges.
+`local.yml` and `headless.yml` require root privileges (`--ask-become-pass`).
 
-### Ubuntu Headless
-
-Run the following command on your terminal (no need to clone this repo):
+### Local checkout
 
 ```bash
-ansible-pull -U https://github.com/iamgianluca/ansible.git headless.yml --ask-become-pass
+make playbook          # run local.yml with --ask-become-pass
+make pull              # ansible-pull from main branch
 ```
 
-You will be asked to provide your password to complete some operations that require root privileges.
+## Development
 
-### Docker Container
-
-Run the following command on your terminal (no need to clone this repo):
-
-```bash
-ansible-pull -U https://github.com/iamgianluca/ansible.git container.yml
-```
-
-### MacOS 
-
-Run the following command on your terminal (no need to clone this repo):
-
-```bash
-ansible-pull -U https://github.com/iamgianluca/ansible.git macos.yml
-```
-
-# Development
-
-To test the changes before committing them, use `ansible-playbook` with the `--check` flag. For instance:
+Dry-run a playbook before committing:
 
 ```bash
 ansible-playbook local.yml --ask-become-pass --check
 ```
-
-# TODO
-
-- [ ] Compile DWM after having overwritten the config files
-- [ ] Store config files for Chrome and other frequently used tools
-- [ ] Use `ansible-vault` to manage SSH keys
-- [ ] Use `ansible-vault` to manage passwords

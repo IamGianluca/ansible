@@ -1,4 +1,4 @@
-# this playbook is dedicated to ubuntu headless server environments
+# this playbook is dedicated to ubuntu docker containers
 - hosts: localhost
   pre_tasks:
     - name: Update Apt
