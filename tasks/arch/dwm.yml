@@ -1,0 +1,56 @@
+- name: Pull dwm-flexipatch repository
+  ansible.builtin.git:
+    repo: 'https://github.com/bakkeby/dwm-flexipatch.git'
+    dest: "~/git/dwm-flexipatch"
+
+- name: Install requirements for DWM
+  become: true
+  community.general.pacman:
+    name: ['libx11', 'libxft', 'libxinerama']
+
+# needed to control and mute volume via XF86 keys
+- name: Install PulseAudio
+  become: true
+  community.general.pacman:
+    name: ['pulseaudio']
+
+# needed to control display brightness via XF86 keys
+- name: Install brightnessctl
+  become: true
+  community.general.pacman:
+    name: ['brightnessctl']
+
+- name: Register username for following task
+  command: whoami
+  changed_when: false
+  become: false
+  register: whoami
+
+# todo: do not hardcode the username
+- name: Add user to video group to enable changing display brightness without sudo
+  become: true
+  ansible.builtin.user:
+    name: gianluca
+    group: video
+
+- name: Pull dmenu-flexipatch repository
+  ansible.builtin.git:
+    repo: 'https://github.com/bakkeby/dmenu-flexipatch.git'
+    dest: "~/git/dmenu-flexipatch"
+
+- name: Build dmenu-flexipatch
+  become: true
+  command: make clean install
+  args:
+    chdir: /home/gianluca/git/dmenu-flexipatch
+
+- name: Pull dwmblocks-async repository
+  ansible.builtin.git:
+    repo: 'https://github.com/UtkarshVerma/dwmblocks-async.git'
+    dest: "~/git/dwmblocks-async"
+    # This is required because the dwmblocks-async repo comes with a default
+    # config.h file. We need to let git overwrite our local config.h if existing.
+    force: true
+
+# We are building dwmblocks-async after having installed our
+# dotfiles. See dwm_part2.yml playbook.

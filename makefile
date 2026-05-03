@@ -1,5 +1,6 @@
 BRANCH?="main"
 IMAGE="ansible-sandbox"
+IMAGE_ARCH="ansible-sandbox-arch"
 
 install_ansible:
 	sudo apt-add-repository -y ppa:ansible/ansible
@@ -17,14 +18,23 @@ install_docker:
 	sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 	sudo usermod -aG docker $$USER
 
-build:
+build-ubuntu:
 	docker build -t $(IMAGE) .
 
-run: 
+build-arch:
+	docker build -f Dockerfile.arch -t $(IMAGE_ARCH) .
+
+run-ubuntu:
 	docker run --rm -it $(IMAGE) /bin/bash
 
-restart:
-	make build && make run
+run-arch:
+	docker run --rm -it $(IMAGE_ARCH) /bin/bash
+
+restart-ubuntu:
+	make build-ubuntu && make run-ubuntu
+
+restart-arch:
+	make build-arch && make run-arch
 
 stop:
 	docker kill $(IMAGE)
@@ -32,10 +42,16 @@ stop:
 pull:
 	ansible-pull -U https://github.com/iamgianluca/ansible.git -C $(BRANCH) --ask-become-pass
 
-PLAYBOOK?=local.yml
+PLAYBOOK?=ubuntu-local.yml
 
-playbook:
+playbook-ubuntu:
 	ansible-playbook $(PLAYBOOK) --ask-become-pass
 
-dry_run:
+dry-run-ubuntu:
 	ansible-playbook $(PLAYBOOK) --ask-become-pass --check
+
+playbook-arch:
+	ansible-playbook arch-local.yml --ask-become-pass
+
+dry-run-arch:
+	ansible-playbook arch-local.yml --ask-become-pass --check

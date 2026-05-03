@@ -1,0 +1,25 @@
+- name: Install basic GUI tools
+  become: true
+  community.general.pacman:
+    name: ['redshift', 'feh', 'flameshot']
+    state: present
+
+# hotspot is AUR-only on Arch, commenting out for now
+# - name: Install programming GUI tools
+#   become: true
+#   community.general.pacman:
+#     name: ['hotspot']
+#     state: present
+
+- name: Install LibreOffice
+  become: true
+  community.general.pacman:
+    name: ['libreoffice-fresh']
+    state: present
+
+# Install Brave browser from AUR using paru
+# (paru itself is installed via makepkg, not pacman)
+- name: Install Brave browser from AUR
+  ansible.builtin.shell: paru -Sa --noconfirm brave-bin
+  args:
+    creates: /usr/bin/brave-browser

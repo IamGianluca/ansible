@@ -1,0 +1,57 @@
+- name: Install development & build tools
+  become: true
+  community.general.pacman:
+    name:
+      - base-devel
+      - cmake
+      - git
+    state: present
+
+- name: Install system utilities
+  become: true
+  community.general.pacman:
+    name:
+      - unzip
+      - curl
+      - wget
+      - tar
+      - gzip
+      - htop
+      - tree
+    state: present
+
+- name: Install networking tools
+  become: true
+  community.general.pacman:
+    name:
+      - mosh
+    state: present
+
+- name: Install Python development environment
+  become: true
+  community.general.pacman:
+    name:
+      - python
+    state: present
+
+- name: Install productivity & workflow tools
+  become: true
+  community.general.pacman:
+    name:
+      - fzf
+      - direnv
+    state: present
+
+- name: Clone paru AUR repo
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/paru.git
+    dest: /tmp/paru
+    version: master
+    force: true
+  changed_when: false
+
+- name: Install paru (AUR helper)
+  ansible.builtin.shell: makepkg -si --noconfirm
+  args:
+    chdir: /tmp/paru
+    creates: /usr/bin/paru

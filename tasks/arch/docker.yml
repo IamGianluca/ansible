@@ -1,0 +1,22 @@
+- name: Install Docker
+  become: true
+  community.general.pacman:
+    name:
+      - docker
+      - docker-buildx
+      - docker-compose
+    state: present
+
+- name: Add user to docker group
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: true
+
+- name: Start and enable Docker service
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: yes

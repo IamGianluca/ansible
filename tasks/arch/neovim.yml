@@ -1,0 +1,21 @@
+- name: Install Neovim
+  become: true
+  community.general.pacman:
+    name: ['neovim', 'python-neovim']
+    state: present
+
+- name: Install extra Dependencies for Telescope
+  become: true
+  community.general.pacman:
+    name: ['ripgrep', 'fd']
+
+- name: Install tree-sitter build dependencies
+  become: true
+  community.general.pacman:
+    name: ['clang', 'llvm']
+    state: present
+
+- name: Install tree-sitter-cli for nvim-treesitter (requires Cargo)
+  community.general.cargo:
+    name: tree-sitter-cli
+    locked: true

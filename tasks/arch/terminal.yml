@@ -1,0 +1,5 @@
+- name: Install Ghostty terminal emulator
+  become: true
+  community.general.pacman:
+    name: ghostty
+    state: present

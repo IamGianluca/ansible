@@ -19,5 +19,5 @@
     cmd: |
       export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
       \. "$NVM_DIR/nvm.sh"
-      nvm install lts
+      nvm install --lts
     creates: "{{ ansible_env.HOME }}/.nvm/versions/node"

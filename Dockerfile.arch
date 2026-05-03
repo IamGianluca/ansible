@@ -1,0 +1,17 @@
+# this image is for testing Arch Linux playbooks before committing them
+FROM archlinux:base
+ENV TERM=screen-256color
+
+RUN pacman -Syu --noconfirm
+RUN pacman -S --noconfirm sudo git ansible curl base-devel neovim
+
+RUN groupadd -g 1001 gianluca
+RUN useradd -m -u 1001 -g 1001 -G wheel gianluca
+RUN echo "gianluca:newpass" | chpasswd
+RUN echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
+RUN echo 'Defaults env_keep += "MAKEPKG_ALLOW_ROOT"' >> /etc/sudoers.d/wheel
+
+USER gianluca
+WORKDIR /home/gianluca
+
+COPY . .

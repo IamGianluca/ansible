@@ -1,0 +1,12 @@
+- name: Install tlp
+  become: true
+  community.general.pacman:
+    name: ['tlp', 'tlp-rdw']
+    state: present
+
+- name: Start and enable tlp service
+  become: true
+  ansible.builtin.systemd:
+    name: tlp
+    state: started
+    enabled: yes

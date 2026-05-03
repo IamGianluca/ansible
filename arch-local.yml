@@ -1,0 +1,23 @@
+# this playbook is dedicated to Arch Linux laptop host environments
+- hosts: localhost
+  pre_tasks:
+    - name: Update Pacman
+      become: true
+      community.general.pacman:
+        update_cache: yes
+      changed_when: false
+  tasks:
+    - import_tasks: tasks/arch/core-packages.yml
+    - import_tasks: tasks/arch/docker.yml
+    - import_tasks: tasks/arch/gui_tools.yml
+    - import_tasks: tasks/arch/terminal.yml
+    - import_tasks: tasks/arch/battery.yml
+    - import_tasks: tasks/arch/zsh.yml
+    - import_tasks: tasks/arch/tmux.yml
+    - import_tasks: tasks/arch/dwm.yml
+    - import_tasks: tasks/dotfiles_ssh.yml
+    - import_tasks: tasks/dwm_part2.yml
+    - import_tasks: tasks/python.yml
+    - import_tasks: tasks/rust.yml
+    - import_tasks: tasks/nodejs.yml
+    - import_tasks: tasks/arch/neovim.yml
