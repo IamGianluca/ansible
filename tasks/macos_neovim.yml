@@ -1,5 +1,5 @@
 - name: Install Neovim
-  shell: brew install --HEAD neovim
+  shell: brew install neovim
 
 - name: Install extra Dependencies for Telescope
   community.general.homebrew:

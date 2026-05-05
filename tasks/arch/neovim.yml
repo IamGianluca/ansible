@@ -1,7 +1,7 @@
 - name: Install Neovim
   become: true
   community.general.pacman:
-    name: ['neovim', 'python-neovim']
+    name: ['neovim', 'python-pynvim']
     state: present
 
 - name: Install extra Dependencies for Telescope
