@@ -1,0 +1,5 @@
+- name: Install typst
+  become: true
+  community.general.pacman:
+    name: typst
+    state: present
