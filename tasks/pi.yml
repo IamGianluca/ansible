@@ -1,0 +1,7 @@
+- name: Install pi.dev
+  ansible.builtin.shell:
+    cmd: |
+      export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
+      \. "$NVM_DIR/nvm.sh"
+      npm install -g @earendil-works/pi-coding-agent
+    creates: "{{ ansible_env.HOME }}/.local/npm/lib/node_modules/@earendil-works/pi-coding-agent"

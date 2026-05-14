@@ -19,4 +19,5 @@
     - import_tasks: tasks/python.yml
     - import_tasks: tasks/rust.yml
     - import_tasks: tasks/nodejs.yml
+    - import_tasks: tasks/pi.yml
     - import_tasks: tasks/neovim.yml
