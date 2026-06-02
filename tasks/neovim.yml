@@ -29,6 +29,7 @@
   community.general.cargo:
     name: tree-sitter-cli
     locked: true
+    executable: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
 
 - name: Install pynvim for nvim-treesitter
   ansible.builtin.pip:

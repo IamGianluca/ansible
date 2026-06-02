@@ -1,0 +1,34 @@
+- name: Check if SSH key exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+  register: ssh_key
+
+- name: Ensure .ssh directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.ssh"
+    state: directory
+    mode: '0700'
+  when: not ssh_key.stat.exists
+
+- name: Generate SSH key if missing
+  community.crypto.openssh_keypair:
+    path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    type: rsa
+    size: 4096
+    comment: "{{ ansible_env.USER }}@{{ ansible_facts['nodename'] }}"
+  when: not ssh_key.stat.exists
+
+- name: Read public key
+  ansible.builtin.slurp:
+    src: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+  register: public_key
+  when: not ssh_key.stat.exists
+
+- name: Print public key and wait for GitHub authorization
+  ansible.builtin.pause:
+    prompt: |
+      Add this SSH key to your GitHub account (https://github.com/settings/ssh/new),
+      then press Enter to continue:
+
+      {{ public_key.content | b64decode }}
+  when: not ssh_key.stat.exists

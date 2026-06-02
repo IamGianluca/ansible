@@ -21,9 +21,11 @@
     - import_tasks: tasks/macos_productivity_tools.yml
     - import_tasks: tasks/macos_tmux.yml
     - import_tasks: tasks/macos_terminal.yml
+    - import_tasks: tasks/rust.yml
+    - import_tasks: tasks/jujutsu.yml
     - import_tasks: tasks/macos_neovim.yml
     - import_tasks: tasks/macos_zsh.yml
-    - import_tasks: tasks/rust.yml
     - import_tasks: tasks/macos_nodejs.yml
     - import_tasks: tasks/macos_python.yml
+    - import_tasks: tasks/ssh_keygen.yml
     - import_tasks: tasks/dotfiles_ssh.yml
