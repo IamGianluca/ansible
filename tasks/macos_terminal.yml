@@ -2,3 +2,8 @@
   community.general.homebrew:
     name: ghostty
     state: present
+
+- name: Install Hack Nerd Font
+  community.general.homebrew_cask:
+    name: font-hack-nerd-font
+    state: present
