@@ -22,4 +22,4 @@
     - import_tasks: tasks/nodejs.yml
     - import_tasks: tasks/pi.yml
     - import_tasks: tasks/arch/neovim.yml
-    - import_tasks: tasks/arch/typst.yml
+    - import_tasks: tasks/typst.yml
