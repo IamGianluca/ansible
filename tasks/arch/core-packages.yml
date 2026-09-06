@@ -50,6 +50,7 @@
       - fd
       - ripgrep
       - git-delta
+      - eza
     state: present
 
 - name: Clone paru AUR repo

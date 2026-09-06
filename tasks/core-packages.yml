@@ -53,6 +53,7 @@
       - fd-find
       - ripgrep
       - git-delta
+      - eza
     state: present
 
 - name: Ensure user local bin directory exists

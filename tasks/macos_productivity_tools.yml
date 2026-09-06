@@ -19,6 +19,7 @@
       - bat
       - fd
       - git-delta
+      - eza
     state: present
 
 - name: Install file transfer and clipboard utilities
