@@ -54,6 +54,7 @@
       - ripgrep
       - git-delta
       - eza
+      - zoxide
     state: present
 
 - name: Ensure user local bin directory exists

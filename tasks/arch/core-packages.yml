@@ -51,6 +51,7 @@
       - ripgrep
       - git-delta
       - eza
+      - zoxide
     state: present
 
 - name: Clone paru AUR repo

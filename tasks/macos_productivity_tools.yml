@@ -20,6 +20,7 @@
       - fd
       - git-delta
       - eza
+      - zoxide
     state: present
 
 - name: Install file transfer and clipboard utilities
