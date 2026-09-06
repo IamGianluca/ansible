@@ -52,6 +52,7 @@
       - bat
       - fd-find
       - ripgrep
+      - git-delta
     state: present
 
 - name: Ensure user local bin directory exists

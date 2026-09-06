@@ -8,6 +8,7 @@
       changed_when: false
   tasks:
     - import_tasks: tasks/arch/core-packages.yml
+    - import_tasks: tasks/delta_config.yml
     - import_tasks: tasks/arch/docker.yml
     - import_tasks: tasks/arch/gui_tools.yml
     - import_tasks: tasks/arch/terminal.yml

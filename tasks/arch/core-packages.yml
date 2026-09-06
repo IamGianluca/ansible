@@ -49,6 +49,7 @@
       - bat
       - fd
       - ripgrep
+      - git-delta
     state: present
 
 - name: Clone paru AUR repo

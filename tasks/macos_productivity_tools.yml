@@ -18,6 +18,7 @@
       - ripgrep  
       - bat
       - fd
+      - git-delta
     state: present
 
 - name: Install file transfer and clipboard utilities
