@@ -45,6 +45,42 @@
       - direnv                      
     state: present
 
+- name: Install search & navigation tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - bat
+      - fd-find
+      - ripgrep
+    state: present
+
+- name: Ensure user local bin directory exists
+  ansible.builtin.file:
+    path: ~/.local/bin
+    state: directory
+
+- name: Find bat binary path
+  ansible.builtin.command: which batcat
+  register: batcat_path
+  changed_when: false
+
+- name: Create bat symlink (bat package installs as batcat on Debian/Ubuntu)
+  ansible.builtin.file:
+    src: "{{ batcat_path.stdout }}"
+    dest: ~/.local/bin/bat
+    state: link
+
+- name: Find fd binary path
+  ansible.builtin.command: which fdfind
+  register: fdfind_path
+  changed_when: false
+
+- name: Create fd symlink (fd-find package installs as fdfind on Debian/Ubuntu)
+  ansible.builtin.file:
+    src: "{{ fdfind_path.stdout }}"
+    dest: ~/.local/bin/fd
+    state: link
+
 - name: Install performance & profiling tools
   become: true
   ansible.builtin.apt:

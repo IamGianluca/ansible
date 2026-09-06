@@ -16,6 +16,8 @@
     name: 
       - fzf      
       - ripgrep  
+      - bat
+      - fd
     state: present
 
 - name: Install file transfer and clipboard utilities

@@ -42,6 +42,15 @@
       - direnv
     state: present
 
+- name: Install search & navigation tools
+  become: true
+  community.general.pacman:
+    name:
+      - bat
+      - fd
+      - ripgrep
+    state: present
+
 - name: Clone paru AUR repo
   ansible.builtin.git:
     repo: https://aur.archlinux.org/paru.git
