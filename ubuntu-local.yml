@@ -7,7 +7,6 @@
       changed_when: False
   tasks:
     - import_tasks: tasks/core-packages.yml
-    - import_tasks: tasks/delta_config.yml
     - import_tasks: tasks/docker.yml
     - import_tasks: tasks/gui_tools.yml
     - import_tasks: tasks/terminal.yml
@@ -21,5 +20,6 @@
     - import_tasks: tasks/rust.yml
     - import_tasks: tasks/nodejs.yml
     - import_tasks: tasks/pi.yml
+    - import_tasks: tasks/hunk.yml
     - import_tasks: tasks/neovim.yml
     - import_tasks: tasks/typst.yml

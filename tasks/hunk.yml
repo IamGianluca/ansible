@@ -1,0 +1,31 @@
+# Install hunk (https://hunk.dev), the review-first terminal diff viewer.
+# One file for all OSes so every playbook imports it under the same name:
+#   - Debian/Ubuntu: no package exists, so the official installer script is
+#     used. It downloads the release archive, verifies the checksum, installs
+#     to ~/.hunk/bin, and appends that directory to PATH in the shell rc file.
+#   - Arch: AUR binary package hunk-bin, installed via paru.
+#   - macOS: Homebrew formula hunk.
+#
+# The script installer decides which rc file to edit from $SHELL. Ansible does
+# not guarantee $SHELL is set (it is often empty under cron/ansible-pull), and
+# the fallback .profile is never read by zsh — the login shell on all systems
+# here — so pin it to zsh to make the PATH export land in ~/.zshrc.
+- name: Install hunk (https://hunk.dev)
+  ansible.builtin.shell: curl -fsSL https://hunk.dev/install.sh | sh
+  args:
+    creates: "{{ ansible_env.HOME }}/.hunk/bin/hunk"  # Ensures idempotence
+  environment:
+    SHELL: /bin/zsh
+  when: ansible_os_family == "Debian"
+
+- name: Install hunk (https://hunk.dev)
+  ansible.builtin.shell: paru -Sa --noconfirm hunk-bin
+  args:
+    creates: /usr/bin/hunk  # Ensures idempotence
+  when: ansible_os_family == "Archlinux"
+
+- name: Install hunk (https://hunk.dev)
+  community.general.homebrew:
+    name: hunk
+    state: present
+  when: ansible_os_family == "Darwin"

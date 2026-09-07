@@ -18,7 +18,6 @@
       - ripgrep  
       - bat
       - fd
-      - git-delta
       - eza
       - zoxide
     state: present
@@ -32,6 +31,6 @@
 
 - name: Install development environment tools
   community.general.homebrew:
-    name: 
-      - direnv   
+    name:
+      - direnv
     state: present

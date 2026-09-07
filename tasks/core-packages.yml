@@ -52,7 +52,6 @@
       - bat
       - fd-find
       - ripgrep
-      - git-delta
       - eza
       - zoxide
     state: present

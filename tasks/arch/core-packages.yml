@@ -49,7 +49,6 @@
       - bat
       - fd
       - ripgrep
-      - git-delta
       - eza
       - zoxide
     state: present
