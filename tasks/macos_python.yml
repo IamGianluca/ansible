@@ -1,2 +1,4 @@
 - name: Install uv package manager
-  shell: curl -LsSf https://astral.sh/uv/install.sh | sh
+  community.general.homebrew:
+    name: uv
+    state: present

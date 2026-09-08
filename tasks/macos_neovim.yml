@@ -1,11 +1,11 @@
 - name: Install Neovim
-  shell: brew install neovim
-
-- name: Install extra Dependencies for Telescope
   community.general.homebrew:
-    name: ripgrep,fd
+    name: neovim
     state: present
-    
+
+# Telescope also needs ripgrep and fd. Both are installed for every macOS host
+# in tasks/macos_productivity_tools.yml, so they are not repeated here.
+
 - name: Install tree-sitter-cli for nvim-treesitter (requires Cargo)
   community.general.cargo:
     name: tree-sitter-cli
