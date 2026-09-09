@@ -1,4 +1,0 @@
-- name: Install uv package manager
-  community.general.homebrew:
-    name: uv
-    state: present

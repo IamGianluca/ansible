@@ -1,7 +1,23 @@
+# Install tmux and TPM (Tmux Plugin Manager) on all systems. The package
+# install differs per OS; the TPM clone below is shared by all of them.
 - name: Install tmux
   become: true
   ansible.builtin.apt:
-      name: ['tmux']
+    name: ['tmux']
+  when: ansible_os_family == "Debian"
+
+- name: Install tmux
+  become: true
+  community.general.pacman:
+    name: ['tmux']
+    state: present
+  when: ansible_os_family == "Archlinux"
+
+- name: Install tmux
+  community.general.homebrew:
+    name: tmux
+    state: present
+  when: ansible_os_family == "Darwin"
 
 - name: Clone TPM (Tmux Plugin Manager)
   ansible.builtin.git:

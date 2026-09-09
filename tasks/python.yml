@@ -1,2 +1,11 @@
+# Install uv, the Python package manager, on all systems: the official script
+# installer on Debian/Ubuntu and Arch, the Homebrew formula on macOS.
 - name: Install uv package manager
-  shell: curl -LsSf https://astral.sh/uv/install.sh | sh
+  ansible.builtin.shell: curl -LsSf https://astral.sh/uv/install.sh | sh
+  when: ansible_os_family in ["Debian", "Archlinux"]
+
+- name: Install uv package manager
+  community.general.homebrew:
+    name: uv
+    state: present
+  when: ansible_os_family == "Darwin"

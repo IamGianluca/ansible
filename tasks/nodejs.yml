@@ -1,23 +1,34 @@
-- name: Download nvm installer
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh
-    dest: "{{ ansible_env.HOME }}/.nvm-install.sh"
-    mode: '0755'
+# Install Node.js on all systems: nvm-based LTS on Debian/Ubuntu and Arch,
+# the Homebrew formula on macOS.
+- name: Install Node.js via nvm
+  block:
+    - name: Download nvm installer
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh
+        dest: "{{ ansible_env.HOME }}/.nvm-install.sh"
+        mode: '0755'
 
-- name: Install nvm
-  ansible.builtin.shell:
-    cmd: "{{ ansible_env.HOME }}/.nvm-install.sh"
-    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    - name: Install nvm
+      ansible.builtin.shell:
+        cmd: "{{ ansible_env.HOME }}/.nvm-install.sh"
+        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
 
-- name: Remove nvm installer
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.nvm-install.sh"
-    state: absent
+    - name: Remove nvm installer
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.nvm-install.sh"
+        state: absent
 
-- name: Install Node.js LTS
-  ansible.builtin.shell:
-    cmd: |
-      export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
-      \. "$NVM_DIR/nvm.sh"
-      nvm install --lts
-    creates: "{{ ansible_env.HOME }}/.nvm/versions/node"
+    - name: Install Node.js LTS
+      ansible.builtin.shell:
+        cmd: |
+          export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
+          \. "$NVM_DIR/nvm.sh"
+          nvm install --lts
+        creates: "{{ ansible_env.HOME }}/.nvm/versions/node"
+  when: ansible_os_family in ["Debian", "Archlinux"]
+
+- name: Install Node.js
+  community.general.homebrew:
+    name: node
+    state: present
+  when: ansible_os_family == "Darwin"

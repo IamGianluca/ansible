@@ -1,6 +1,28 @@
+# Install the Ghostty terminal emulator on all systems: Ubuntu via snap, Arch
+# via pacman, macOS via Homebrew (which also gets the Hack Nerd Font).
 - name: Install Ghostty terminal emulator
   become: true
   community.general.snap:
     name: ghostty
     classic: yes
     state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install Ghostty terminal emulator
+  become: true
+  community.general.pacman:
+    name: ghostty
+    state: present
+  when: ansible_os_family == "Archlinux"
+
+- name: Install Ghostty terminal emulator
+  community.general.homebrew:
+    name: ghostty
+    state: present
+  when: ansible_os_family == "Darwin"
+
+- name: Install Hack Nerd Font
+  community.general.homebrew_cask:
+    name: font-hack-nerd-font
+    state: present
+  when: ansible_os_family == "Darwin"
