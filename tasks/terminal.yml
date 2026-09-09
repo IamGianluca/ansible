@@ -1,5 +1,8 @@
-# Install the Ghostty terminal emulator on all systems: Ubuntu via snap, Arch
-# via pacman, macOS via Homebrew (which also gets the Hack Nerd Font).
+# Install the Ghostty terminal emulator and the Hack Nerd Font on all systems.
+# Ghostty ships no fonts, so the font comes from each OS: the font-hack-nerd-font
+# cask on macOS, the ttf-hack-nerd package on Arch. Ubuntu has no nerd-font
+# package, so the font is extracted from the nerd-fonts release archive into
+# ~/.local/share/fonts.
 - name: Install Ghostty terminal emulator
   become: true
   community.general.snap:
@@ -21,7 +24,55 @@
     state: present
   when: ansible_os_family == "Darwin"
 
-- name: Install Hack Nerd Font
+- name: Install Hack Nerd Font (Ubuntu)
+  block:
+    - name: Check if Hack Nerd Font is installed
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts/HackNerdFont-Regular.ttf"
+      register: hack_nerd_font
+
+    - name: Create user fonts directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+        state: directory
+      when: not hack_nerd_font.stat.exists
+
+    - name: Download Hack Nerd Font archive
+      ansible.builtin.get_url:
+        url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip
+        dest: /tmp/Hack.zip
+      # Run even in check mode: the download is small and idempotent, and the
+      # extract step below needs the file present for a successful dry-run.
+      check_mode: false
+      when: not hack_nerd_font.stat.exists
+
+    - name: Extract Hack Nerd Font
+      ansible.builtin.unarchive:
+        src: /tmp/Hack.zip
+        dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+        remote_src: true
+      when: not hack_nerd_font.stat.exists
+
+    - name: Remove Hack Nerd Font archive
+      ansible.builtin.file:
+        path: /tmp/Hack.zip
+        state: absent
+      when: not hack_nerd_font.stat.exists
+
+    - name: Refresh font cache
+      ansible.builtin.command: fc-cache -f
+      changed_when: false
+      when: not hack_nerd_font.stat.exists
+  when: ansible_os_family == "Debian"
+
+- name: Install Hack Nerd Font (Arch)
+  become: true
+  community.general.pacman:
+    name: ttf-hack-nerd
+    state: present
+  when: ansible_os_family == "Archlinux"
+
+- name: Install Hack Nerd Font (macOS)
   community.general.homebrew_cask:
     name: font-hack-nerd-font
     state: present
