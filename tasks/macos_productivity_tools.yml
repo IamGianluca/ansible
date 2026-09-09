@@ -20,6 +20,7 @@
       - fd
       - eza
       - zoxide
+      - tldr
     state: present
 
 - name: Install file transfer and clipboard utilities

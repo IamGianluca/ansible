@@ -51,6 +51,7 @@
       - ripgrep
       - eza
       - zoxide
+      - tldr
     state: present
 
 - name: Clone paru AUR repo

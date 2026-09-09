@@ -54,6 +54,7 @@
       - ripgrep
       - eza
       - zoxide
+      - tealdeer  # ships the tldr command (Ubuntu's tldr pkg has no binary)
     state: present
 
 - name: Ensure user local bin directory exists
