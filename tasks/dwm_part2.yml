@@ -8,4 +8,4 @@
   become: true
   command: make install
   args:
-    chdir: /home/gianluca/git/dwmblocks-async
+    chdir: "{{ ansible_user_dir }}/git/dwmblocks-async"
