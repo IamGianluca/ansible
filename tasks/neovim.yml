@@ -6,7 +6,7 @@
 - name: Install Neovim
   become: true
   ansible.builtin.apt:
-    name: ['neovim', 'python3-neovim', 'python3-venv']
+    name: ['neovim', 'python3-neovim', 'python3-pynvim', 'python3-venv']
     update_cache: yes
 
 - name: Install extra Dependencies for Telescope
@@ -31,7 +31,3 @@
     locked: true
     executable: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
 
-- name: Install pynvim for nvim-treesitter
-  ansible.builtin.pip:
-    name: pynvim
-    state: present
