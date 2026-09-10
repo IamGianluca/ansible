@@ -18,6 +18,18 @@
         path: "{{ ansible_env.HOME }}/.nvm-install.sh"
         state: absent
 
+    # nvm refuses to install a node version while ~/.npmrc sets `prefix` or
+    # `globalconfig`. We keep prefix=~/.local/npm so global tools (e.g. pi)
+    # install there without sudo, so comment the line for the install step
+    # and restore it right after.
+    - name: Comment out npm prefix in .npmrc during nvm install
+      ansible.builtin.shell:
+        cmd: |
+          if [ -f "{{ ansible_env.HOME }}/.npmrc" ]; then
+            sed -i 's/^\(prefix\|globalconfig\)=/#\1=/' "{{ ansible_env.HOME }}/.npmrc"
+          fi
+      changed_when: false
+
     - name: Install Node.js LTS
       ansible.builtin.shell:
         cmd: |
@@ -25,6 +37,14 @@
           \. "$NVM_DIR/nvm.sh"
           nvm install --lts
         creates: "{{ ansible_env.HOME }}/.nvm/versions/node"
+
+    - name: Restore npm prefix in .npmrc
+      ansible.builtin.shell:
+        cmd: |
+          if [ -f "{{ ansible_env.HOME }}/.npmrc" ]; then
+            sed -i 's/^#\(prefix\|globalconfig\)=/\1=/' "{{ ansible_env.HOME }}/.npmrc"
+          fi
+      changed_when: false
   when: ansible_os_family in ["Debian", "Archlinux"]
 
 - name: Install Node.js
