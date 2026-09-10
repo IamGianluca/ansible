@@ -52,15 +52,14 @@
       - eza
       - zoxide
       - tldr
+      - jujutsu
     state: present
 
 - name: Clone paru AUR repo
-  ansible.builtin.git:
-    repo: https://aur.archlinux.org/paru.git
-    dest: /tmp/paru
-    version: master
-    force: true
-  changed_when: false
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: https://aur.archlinux.org/paru.git
+    jj_repo_dest: /tmp/paru
 
 - name: Install paru (AUR helper)
   ansible.builtin.shell: makepkg -si --noconfirm

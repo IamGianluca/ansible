@@ -1,3 +1,39 @@
+# Install or update jujutsu (jj). Debian/Ubuntu ship no package, so manage
+# the prebuilt binary directly: each run resolves the latest GitHub release
+# and replaces the binary when the installed version differs. No version pin
+# to forget about. (Arch gets the official pacman package; macOS uses cargo.)
+- name: Install or update jujutsu (jj) binary
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      ARCH={{ 'aarch64' if ansible_architecture == 'aarch64' else 'x86_64' }}
+      LATEST=$(curl -fsSL https://api.github.com/repos/jj-vcs/jj/releases/latest | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -1)
+      [ -n "$LATEST" ] || { echo "could not resolve latest jj release"; exit 1; }
+      INSTALLED=""
+      if [ -x /usr/local/bin/jj ]; then
+        INSTALLED=$(/usr/local/bin/jj --version 2>/dev/null | awk '{print $2}' | cut -d- -f1)
+      fi
+      if [ "$INSTALLED" != "${LATEST#v}" ]; then
+        curl -fsSLo /tmp/jj.tar.gz "https://github.com/jj-vcs/jj/releases/download/${LATEST}/jj-v${LATEST#v}-${ARCH}-unknown-linux-musl.tar.gz"
+        tar -xzf /tmp/jj.tar.gz -C /usr/local/bin ./jj
+        rm -f /tmp/jj.tar.gz
+        echo "jj updated to ${LATEST}"
+      fi
+      # ~/.zshenv puts ~/.cargo/bin first on PATH, so a stale cargo-installed
+      # jj would shadow the managed binary. Point it at /usr/local/bin/jj.
+      if [ -e "{{ ansible_user_dir }}/.cargo/bin/jj" ]; then
+        ln -sf /usr/local/bin/jj "{{ ansible_user_dir }}/.cargo/bin/jj"
+      fi
+  register: jj_install_result
+  changed_when: "'jj updated to' in jj_install_result.stdout"
+  when: ansible_os_family == "Debian"
+  args:
+    executable: /bin/bash
+    # Run outside any jj repo: jj resolves the cwd's repo config on every
+    # invocation including --version. With become, an invocation inside the
+    # user's repos would create root-owned files there (config-id).
+
 - name: Install jujutsu (jj) from stable release
   ansible.builtin.shell: |
     source {{ ansible_env.HOME }}/.cargo/env
@@ -5,3 +41,4 @@
   args:
     executable: /bin/bash
     creates: "{{ ansible_env.HOME }}/.cargo/bin/jj"
+  when: ansible_os_family != "Debian"

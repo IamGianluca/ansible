@@ -20,10 +20,7 @@
   when: ansible_os_family == "Darwin"
 
 - name: Clone TPM (Tmux Plugin Manager)
-  ansible.builtin.git:
-    repo: 'https://github.com/tmux-plugins/tpm'
-    dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
-    recursive: yes
-    update: yes
-    accept_hostkey: yes
-    version: master
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: 'https://github.com/tmux-plugins/tpm'
+    jj_repo_dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"

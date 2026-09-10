@@ -1,0 +1,51 @@
+# Manage a git repository as a jujutsu repo.
+#
+# - Fresh clone: `jj git clone` (colocated: creates both .jj and .git)
+# - Existing git clone: converted in place with `jj git init --colocate`,
+#   which imports the whole history without re-cloning
+# - Update (jj_repo_update, default true): fetch, then move the working copy
+#   to the remote's default branch (like git's fast-forward pull; the branch
+#   name comes from origin/HEAD so it also works for `master` repos)
+#
+# Note: the update step resets the checked-out tree to the branch tip. WIP
+# and commits are always preserved in the repo's history (snapshot commits),
+# but they leave the tree — so callers who work inside the repo (e.g. the
+# dotfiles repo) should set jj_repo_update: false.
+#
+# Required vars: jj_repo_url, jj_repo_dest
+- name: "Clone/convert jj repo: {{ jj_repo_url }}"
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      JJ=$(command -v jj || echo "{{ ansible_user_dir }}/.cargo/bin/jj")
+      if [ ! -d "{{ jj_repo_dest }}/.jj" ]; then
+        if [ -d "{{ jj_repo_dest }}/.git" ]; then
+          (cd "{{ jj_repo_dest }}" && "$JJ" git init --colocate >/dev/null)
+        else
+          "$JJ" git clone "{{ jj_repo_url }}" "{{ jj_repo_dest }}" >/dev/null
+        fi
+      fi
+  args:
+    executable: /bin/bash
+    # Never run inside a jj repo: jj resolves the cwd's repo config even when
+    # given another repo via -R. Playbook cwd is the ansible repo itself.
+    chdir: /tmp
+  changed_when: false
+
+- name: "Update jj repo: {{ jj_repo_url }}"
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      JJ=$(command -v jj || echo "{{ ansible_user_dir }}/.cargo/bin/jj")
+      "$JJ" -R "{{ jj_repo_dest }}" git fetch >/dev/null
+      BRANCH=$(git -C "{{ jj_repo_dest }}" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
+      # Converted repos have untracked bookmarks; fetch would not move them.
+      # Tracking makes future fetches fast-forward the local bookmark.
+      "$JJ" -R "{{ jj_repo_dest }}" bookmark track "${BRANCH:-main}" --remote=origin >/dev/null 2>&1
+      "$JJ" -R "{{ jj_repo_dest }}" new "${BRANCH:-main}" >/dev/null
+  args:
+    executable: /bin/bash
+    # Same as above: run outside any jj repo so -R is unambiguous.
+    chdir: /tmp
+  changed_when: false
+  when: jj_repo_update | default(true)

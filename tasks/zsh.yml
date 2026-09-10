@@ -80,21 +80,19 @@
     - plugins
 
 - name: Install powerlevel10k theme
-  git:
-    repo: "https://github.com/romkatv/powerlevel10k.git"
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
-    depth: 1
-    update: yes
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: "https://github.com/romkatv/powerlevel10k.git"
+    jj_repo_dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
   tags:
     - zsh
     - themes
 
 - name: Install ZSH plugins
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/{{ item.name }}"
-    depth: 1
-    update: yes
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: "{{ item.repo }}"
+    jj_repo_dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/{{ item.name }}"
   loop:
     - { name: zsh-vi-mode, repo: https://github.com/jeffreytse/zsh-vi-mode }
     - { name: zsh-autosuggestions, repo: https://github.com/zsh-users/zsh-autosuggestions }

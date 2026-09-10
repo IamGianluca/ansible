@@ -7,6 +7,7 @@
       changed_when: False
   tasks:
     - import_tasks: tasks/core-packages.yml
+    - import_tasks: tasks/jujutsu.yml
     - import_tasks: tasks/docker.yml
     - import_tasks: tasks/nvidia-container-toolkit.yml
     - import_tasks: tasks/zsh.yml
@@ -18,5 +19,4 @@
     - import_tasks: tasks/rust.yml
     - import_tasks: tasks/nodejs.yml
     - import_tasks: tasks/neovim.yml
-    - import_tasks: tasks/jujutsu.yml  # requires rust
     - import_tasks: tasks/hunk.yml

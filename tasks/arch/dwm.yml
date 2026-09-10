@@ -1,7 +1,8 @@
 - name: Pull dwm-flexipatch repository
-  ansible.builtin.git:
-    repo: 'https://github.com/bakkeby/dwm-flexipatch.git'
-    dest: "{{ ansible_user_dir }}/git/dwm-flexipatch"
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: 'https://github.com/bakkeby/dwm-flexipatch.git'
+    jj_repo_dest: "{{ ansible_user_dir }}/git/dwm-flexipatch"
 
 - name: Install requirements for DWM
   become: true
@@ -31,9 +32,10 @@
     append: true
 
 - name: Pull dmenu-flexipatch repository
-  ansible.builtin.git:
-    repo: 'https://github.com/bakkeby/dmenu-flexipatch.git'
-    dest: "{{ ansible_user_dir }}/git/dmenu-flexipatch"
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: 'https://github.com/bakkeby/dmenu-flexipatch.git'
+    jj_repo_dest: "{{ ansible_user_dir }}/git/dmenu-flexipatch"
 
 - name: Build dmenu-flexipatch
   become: true
@@ -42,12 +44,12 @@
     chdir: "{{ ansible_user_dir }}/git/dmenu-flexipatch"
 
 - name: Pull dwmblocks-async repository
-  ansible.builtin.git:
-    repo: 'https://github.com/UtkarshVerma/dwmblocks-async.git'
-    dest: "{{ ansible_user_dir }}/git/dwmblocks-async"
-    # This is required because the dwmblocks-async repo comes with a default
-    # config.h file. We need to let git overwrite our local config.h if existing.
-    force: true
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: 'https://github.com/UtkarshVerma/dwmblocks-async.git'
+    jj_repo_dest: "{{ ansible_user_dir }}/git/dwmblocks-async"
+  # The repo tracks its own config.h; `jj new` restores the upstream file each
+  # run, and the dotfiles install re-creates our config.h symlink afterwards.
 
 # We are building dwmblocks-async after having installed our
 # dotfiles. See dwm_part2.yml playbook.

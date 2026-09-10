@@ -13,27 +13,31 @@
   when: my_folder.stat.exists == false
 
 - name: Install powerlevel10k
-  ansible.builtin.git:
-    repo: "https://github.com/romkatv/powerlevel10k.git"
-    dest: "~/.oh-my-zsh/custom/themes/powerlevel10k"
-    depth: 1
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: "https://github.com/romkatv/powerlevel10k.git"
+    jj_repo_dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/themes/powerlevel10k"
       
 - name: Install zsh-vi-mode
-  ansible.builtin.git:
-    repo: "https://github.com/jeffreytse/zsh-vi-mode"
-    dest: "~/.oh-my-zsh/custom/plugins/zsh-vi-mode"
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: "https://github.com/jeffreytse/zsh-vi-mode"
+    jj_repo_dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-vi-mode"
 
 - name: Install zsh-autosuggestions
-  ansible.builtin.git:
-    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-    dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    jj_repo_dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
 - name: Install zsh-fzf-history-search
-  ansible.builtin.git:
-    repo: 'https://github.com/joshskidmore/zsh-fzf-history-search'
-    dest: "~/.oh-my-zsh/custom/plugins/zsh-fzf-history-search"
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: 'https://github.com/joshskidmore/zsh-fzf-history-search'
+    jj_repo_dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-fzf-history-search"
 
 - name: Install zsh-syntax-highlighting
-  ansible.builtin.git:
-    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting'
-    dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+  ansible.builtin.include_tasks: jj_repo.yml
+  vars:
+    jj_repo_url: 'https://github.com/zsh-users/zsh-syntax-highlighting'
+    jj_repo_dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
