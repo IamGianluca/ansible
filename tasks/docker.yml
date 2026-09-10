@@ -22,9 +22,10 @@
 
 - name: Add Docker apt repository
   become: true
+  # amd64 is Debian's name for x86_64; ansible_architecture would write arch=x86_64, which apt can't match
   ansible.builtin.apt_repository:
     repo: >-
-      deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc]
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
       https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
     filename: docker
     state: present
