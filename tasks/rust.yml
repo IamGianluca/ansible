@@ -28,11 +28,3 @@
     - rust
     - rustup
 
-- name: Set Rust environment for current session
-  ansible.builtin.shell: source "{{ ansible_env.HOME }}/.cargo/env"
-  args:
-    executable: /bin/bash
-  when: rustup_result.changed | default(false)
-  tags:
-    - rust
-    - rustup
