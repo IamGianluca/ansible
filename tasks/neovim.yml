@@ -9,15 +9,27 @@
     dest: /usr/share/keyrings/neovim-ppa-unstable.asc
     mode: '0644'
 
-# apt_repository named the PPA source after the codename it was added under, so
-# a release upgrade can leave several behind. Also drop the key it dumped into
-# trusted.gpg.d, which apt trusts for every repository rather than just this one.
+# Older tooling left the same Launchpad PPA behind under several file names
+# and keyring locations: apt_repository wrote "ppa_neovim_ppa_*_<codename>.list"
+# and imported the key into trusted.gpg.d (apt trusts it for every repository,
+# not just this one), and earlier deb822 setups left a *.sources file with the
+# key inlined in Signed-By. Two sources for one URI with different Signed-By
+# values is a hard apt error, so sweep up anything naming the PPA before the
+# new file goes in. The file deb822_repository manages is excluded so a rerun
+# does not delete it.
 - name: Find pre-deb822 neovim PPA apt sources
   become: true
   ansible.builtin.find:
     paths: /etc/apt/sources.list.d
-    patterns: 'neovim-ppa-ubuntu-unstable*.list'
+    patterns: '*neovim*'
   register: neovim_repo_legacy
+
+- name: Find pre-deb822 neovim PPA signing keys
+  become: true
+  ansible.builtin.find:
+    paths: /etc/apt/trusted.gpg.d
+    patterns: '*neovim*'
+  register: neovim_key_legacy
 
 - name: Remove pre-deb822 neovim PPA apt sources
   become: true
@@ -25,7 +37,8 @@
     path: "{{ item }}"
     state: absent
   loop: "{{ neovim_repo_legacy.files | map(attribute='path') | list
-            + ['/etc/apt/trusted.gpg.d/neovim-ppa-ubuntu-unstable.gpg'] }}"
+            + neovim_key_legacy.files | map(attribute='path') | list }}"
+  when: item != '/etc/apt/sources.list.d/neovim-ppa-unstable.sources'
 
 - name: Add neovim unstable repository
   become: true
