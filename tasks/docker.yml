@@ -22,11 +22,11 @@
 
 - name: Add Docker apt repository
   become: true
-  # amd64 is Debian's name for x86_64; ansible_architecture would write arch=x86_64, which apt can't match
+  # amd64 is Debian's name for x86_64; ansible_facts['architecture'] would write arch=x86_64, which apt can't match
   ansible.builtin.apt_repository:
     repo: >-
       deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
-      https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+      https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] }} stable
     filename: docker
     state: present
     update_cache: true
@@ -45,6 +45,6 @@
 - name: Add user to docker group
   become: true
   ansible.builtin.user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ ansible_facts['user_id'] }}"
     groups: docker
     append: true

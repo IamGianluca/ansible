@@ -17,7 +17,7 @@
   ansible.builtin.shell:
     cmd: |
       set -e
-      JJ=$(command -v jj || echo "{{ ansible_user_dir }}/.cargo/bin/jj")
+      JJ=$(command -v jj || echo "{{ ansible_facts['user_dir'] }}/.cargo/bin/jj")
       if [ ! -d "{{ jj_repo_dest }}/.jj" ]; then
         if [ -d "{{ jj_repo_dest }}/.git" ]; then
           (cd "{{ jj_repo_dest }}" && "$JJ" git init --colocate >/dev/null)
@@ -36,7 +36,7 @@
   ansible.builtin.shell:
     cmd: |
       set -e
-      JJ=$(command -v jj || echo "{{ ansible_user_dir }}/.cargo/bin/jj")
+      JJ=$(command -v jj || echo "{{ ansible_facts['user_dir'] }}/.cargo/bin/jj")
       "$JJ" -R "{{ jj_repo_dest }}" git fetch >/dev/null
       BRANCH=$(git -C "{{ jj_repo_dest }}" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
       # Converted repos have untracked bookmarks; fetch would not move them.

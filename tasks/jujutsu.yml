@@ -8,7 +8,7 @@
   ansible.builtin.shell:
     cmd: |
       set -e
-      ARCH={{ 'aarch64' if ansible_architecture == 'aarch64' else 'x86_64' }}
+      ARCH={{ 'aarch64' if ansible_facts['architecture'] == 'aarch64' else 'x86_64' }}
       LATEST=$(curl -fsSL https://api.github.com/repos/jj-vcs/jj/releases/latest | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -1)
       [ -n "$LATEST" ] || { echo "could not resolve latest jj release"; exit 1; }
       INSTALLED=""
@@ -23,12 +23,12 @@
       fi
       # ~/.zshenv puts ~/.cargo/bin first on PATH, so a stale cargo-installed
       # jj would shadow the managed binary. Point it at /usr/local/bin/jj.
-      if [ -e "{{ ansible_user_dir }}/.cargo/bin/jj" ]; then
-        ln -sf /usr/local/bin/jj "{{ ansible_user_dir }}/.cargo/bin/jj"
+      if [ -e "{{ ansible_facts['user_dir'] }}/.cargo/bin/jj" ]; then
+        ln -sf /usr/local/bin/jj "{{ ansible_facts['user_dir'] }}/.cargo/bin/jj"
       fi
   register: jj_install_result
   changed_when: "'jj updated to' in jj_install_result.stdout"
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   args:
     executable: /bin/bash
     # Run outside any jj repo: jj resolves the cwd's repo config on every
@@ -39,4 +39,4 @@
   community.general.homebrew:
     name: jj
     state: present
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"

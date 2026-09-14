@@ -13,19 +13,19 @@
 - name: Install hunk (https://hunk.dev)
   ansible.builtin.shell: curl -fsSL https://hunk.dev/install.sh | sh
   args:
-    creates: "{{ ansible_env.HOME }}/.hunk/bin/hunk"  # Ensures idempotence
+    creates: "{{ ansible_facts['env']['HOME'] }}/.hunk/bin/hunk"  # Ensures idempotence
   environment:
     SHELL: /bin/zsh
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install hunk (https://hunk.dev)
   ansible.builtin.shell: paru -Sa --noconfirm hunk-bin
   args:
     creates: /usr/bin/hunk  # Ensures idempotence
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
 
 - name: Install hunk (https://hunk.dev)
   community.general.homebrew:
     name: hunk
     state: present
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"

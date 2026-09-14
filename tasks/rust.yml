@@ -21,7 +21,7 @@
 - name: Install Rust and Cargo
   ansible.builtin.shell: /tmp/rustup.sh -y
   args:
-    creates: "{{ ansible_env.HOME }}/.cargo/bin/cargo"  # Ensures idempotence
+    creates: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin/cargo"  # Ensures idempotence
   register: rustup_result
   when: cargo_exists is failed
   tags:

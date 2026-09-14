@@ -9,31 +9,31 @@
     name: ghostty
     classic: yes
     state: present
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install Ghostty terminal emulator
   become: true
   community.general.pacman:
     name: ghostty
     state: present
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
 
 - name: Install Ghostty terminal emulator
   community.general.homebrew:
     name: ghostty
     state: present
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Install Hack Nerd Font (Ubuntu)
   block:
     - name: Check if Hack Nerd Font is installed
       ansible.builtin.stat:
-        path: "{{ ansible_env.HOME }}/.local/share/fonts/HackNerdFont-Regular.ttf"
+        path: "{{ ansible_facts['env']['HOME'] }}/.local/share/fonts/HackNerdFont-Regular.ttf"
       register: hack_nerd_font
 
     - name: Create user fonts directory
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+        path: "{{ ansible_facts['env']['HOME'] }}/.local/share/fonts"
         state: directory
       when: not hack_nerd_font.stat.exists
 
@@ -49,7 +49,7 @@
     - name: Extract Hack Nerd Font
       ansible.builtin.unarchive:
         src: /tmp/Hack.zip
-        dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+        dest: "{{ ansible_facts['env']['HOME'] }}/.local/share/fonts"
         remote_src: true
       when: not hack_nerd_font.stat.exists
 
@@ -63,17 +63,17 @@
       ansible.builtin.command: fc-cache -f
       changed_when: false
       when: not hack_nerd_font.stat.exists
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install Hack Nerd Font (Arch)
   become: true
   community.general.pacman:
     name: ttf-hack-nerd
     state: present
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
 
 - name: Install Hack Nerd Font (macOS)
   community.general.homebrew_cask:
     name: font-hack-nerd-font
     state: present
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"

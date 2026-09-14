@@ -1,26 +1,26 @@
 - name: Check if SSH key exists
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    path: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_rsa"
   register: ssh_key
 
 - name: Ensure .ssh directory exists
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.ssh"
+    path: "{{ ansible_facts['env']['HOME'] }}/.ssh"
     state: directory
     mode: '0700'
   when: not ssh_key.stat.exists
 
 - name: Generate SSH key if missing
   community.crypto.openssh_keypair:
-    path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    path: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_rsa"
     type: rsa
     size: 4096
-    comment: "{{ ansible_env.USER }}@{{ ansible_facts['nodename'] }}"
+    comment: "{{ ansible_facts['env']['USER'] }}@{{ ansible_facts['nodename'] }}"
   when: not ssh_key.stat.exists
 
 - name: Read public key
   ansible.builtin.slurp:
-    src: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+    src: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_rsa.pub"
   register: public_key
   when: not ssh_key.stat.exists
 

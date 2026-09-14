@@ -2,10 +2,10 @@
 # installer on Debian/Ubuntu and Arch, the Homebrew formula on macOS.
 - name: Install uv package manager
   ansible.builtin.shell: curl -LsSf https://astral.sh/uv/install.sh | sh
-  when: ansible_os_family in ["Debian", "Archlinux"]
+  when: ansible_facts['os_family'] in ["Debian", "Archlinux"]
 
 - name: Install uv package manager
   community.general.homebrew:
     name: uv
     state: present
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"

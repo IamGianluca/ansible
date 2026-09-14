@@ -1,7 +1,7 @@
 - name: Install typst from stable release
   ansible.builtin.shell: |
-    source {{ ansible_env.HOME }}/.cargo/env
+    source {{ ansible_facts['env']['HOME'] }}/.cargo/env
     cargo install --locked typst-cli
   args:
     executable: /bin/bash
-    creates: "{{ ansible_env.HOME }}/.cargo/bin/typst"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.cargo/bin/typst"

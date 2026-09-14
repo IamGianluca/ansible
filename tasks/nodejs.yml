@@ -5,17 +5,17 @@
     - name: Download nvm installer
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh
-        dest: "{{ ansible_env.HOME }}/.nvm-install.sh"
+        dest: "{{ ansible_facts['env']['HOME'] }}/.nvm-install.sh"
         mode: '0755'
 
     - name: Install nvm
       ansible.builtin.shell:
-        cmd: "{{ ansible_env.HOME }}/.nvm-install.sh"
-        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+        cmd: "{{ ansible_facts['env']['HOME'] }}/.nvm-install.sh"
+        creates: "{{ ansible_facts['env']['HOME'] }}/.nvm/nvm.sh"
 
     - name: Remove nvm installer
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.nvm-install.sh"
+        path: "{{ ansible_facts['env']['HOME'] }}/.nvm-install.sh"
         state: absent
 
     # nvm refuses to install a node version while ~/.npmrc sets `prefix` or
@@ -25,30 +25,30 @@
     - name: Comment out npm prefix in .npmrc during nvm install
       ansible.builtin.shell:
         cmd: |
-          if [ -f "{{ ansible_env.HOME }}/.npmrc" ]; then
-            sed -i 's/^\(prefix\|globalconfig\)=/#\1=/' "{{ ansible_env.HOME }}/.npmrc"
+          if [ -f "{{ ansible_facts['env']['HOME'] }}/.npmrc" ]; then
+            sed -i 's/^\(prefix\|globalconfig\)=/#\1=/' "{{ ansible_facts['env']['HOME'] }}/.npmrc"
           fi
       changed_when: false
 
     - name: Install Node.js LTS
       ansible.builtin.shell:
         cmd: |
-          export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
+          export NVM_DIR="{{ ansible_facts['env']['HOME'] }}/.nvm"
           \. "$NVM_DIR/nvm.sh"
           nvm install --lts
-        creates: "{{ ansible_env.HOME }}/.nvm/versions/node"
+        creates: "{{ ansible_facts['env']['HOME'] }}/.nvm/versions/node"
 
     - name: Restore npm prefix in .npmrc
       ansible.builtin.shell:
         cmd: |
-          if [ -f "{{ ansible_env.HOME }}/.npmrc" ]; then
-            sed -i 's/^#\(prefix\|globalconfig\)=/\1=/' "{{ ansible_env.HOME }}/.npmrc"
+          if [ -f "{{ ansible_facts['env']['HOME'] }}/.npmrc" ]; then
+            sed -i 's/^#\(prefix\|globalconfig\)=/\1=/' "{{ ansible_facts['env']['HOME'] }}/.npmrc"
           fi
       changed_when: false
-  when: ansible_os_family in ["Debian", "Archlinux"]
+  when: ansible_facts['os_family'] in ["Debian", "Archlinux"]
 
 - name: Install Node.js
   community.general.homebrew:
     name: node
     state: present
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"

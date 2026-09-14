@@ -4,20 +4,20 @@
   become: true
   ansible.builtin.apt:
     name: ['tmux']
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install tmux
   become: true
   community.general.pacman:
     name: ['tmux']
     state: present
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
 
 - name: Install tmux
   community.general.homebrew:
     name: tmux
     state: present
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Clone TPM (Tmux Plugin Manager)
   ansible.builtin.include_tasks: jj_repo.yml
