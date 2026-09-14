@@ -5,22 +5,34 @@
     dest: /usr/share/keyrings/nvidia-container-toolkit.asc
     mode: '0644'
 
+# apt_repository wrote nvidia-container-toolkit.list; deb822_repository writes
+# the .sources file. Drop the old one so apt does not read the repo twice.
+- name: Remove pre-deb822 NVIDIA Container Toolkit apt source
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    state: absent
+
 - name: Add NVIDIA Container Toolkit repository
   become: true
-  # NVIDIA publishes a flat repo (no dists/); amd64 is Debian's name for x86_64
-  ansible.builtin.apt_repository:
-    repo: >-
-      deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit.asc]
-      https://nvidia.github.io/libnvidia-container/stable/deb/amd64 /
-    filename: nvidia-container-toolkit
+  ansible.builtin.deb822_repository:
+    name: nvidia-container-toolkit
+    types: deb
+    # NVIDIA publishes a flat repo (no dists/), hence the bare "/" suite and no
+    # components; amd64 is Debian's name for x86_64
+    uris: https://nvidia.github.io/libnvidia-container/stable/deb/amd64
+    suites: "/"
+    signed_by: /usr/share/keyrings/nvidia-container-toolkit.asc
     state: present
-    update_cache: true
 
 - name: Install NVIDIA Container Toolkit
   become: true
   ansible.builtin.apt:
     name: nvidia-container-toolkit
     state: present
+    # deb822_repository does not refresh the cache, unlike apt_repository's
+    # update_cache, so the repo added above is only visible to apt from here.
+    update_cache: true
   register: nvidia_ctk_install
 
 - name: Configure NVIDIA container runtime

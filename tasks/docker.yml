@@ -20,16 +20,27 @@
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
 
+# apt_repository wrote docker.list; deb822_repository writes docker.sources.
+# Drop the old file so hosts provisioned before the switch do not end up with
+# the repository configured twice.
+- name: Remove pre-deb822 Docker apt source
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/docker.list
+    state: absent
+
 - name: Add Docker apt repository
   become: true
-  # amd64 is Debian's name for x86_64; ansible_facts['architecture'] would write arch=x86_64, which apt can't match
-  ansible.builtin.apt_repository:
-    repo: >-
-      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
-      https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] }} stable
-    filename: docker
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris: https://download.docker.com/linux/ubuntu
+    suites: "{{ ansible_facts['distribution_release'] }}"
+    components: stable
+    # amd64 is Debian's name for x86_64; ansible_facts['architecture'] would write x86_64, which apt can't match
+    architectures: amd64
+    signed_by: /etc/apt/keyrings/docker.asc
     state: present
-    update_cache: true
 
 - name: Install Docker
   become: true
@@ -41,6 +52,9 @@
       - docker-buildx-plugin
       - docker-compose-plugin
     state: present
+    # deb822_repository does not refresh the cache, unlike apt_repository's
+    # update_cache, so the repo added above is only visible to apt from here.
+    update_cache: true
 
 - name: Add user to docker group
   become: true

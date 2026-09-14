@@ -1,7 +1,42 @@
-- name: Add neovim unstable repository from PPA and install its signing key 
+# The `ppa:` shorthand was an apt_repository feature: it expanded the URI and
+# pulled the signing key from Launchpad. deb822_repository does neither, so
+# both are spelled out here. Fingerprint comes from
+# https://api.launchpad.net/devel/~neovim-ppa/+archive/ubuntu/unstable
+- name: Add neovim unstable PPA signing key
   become: true
-  ansible.builtin.apt_repository:
-    repo: ppa:neovim-ppa/unstable
+  ansible.builtin.get_url:
+    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x9DBB0BE9366964F134855E2255F96FCF8231B6DD"
+    dest: /usr/share/keyrings/neovim-ppa-unstable.asc
+    mode: '0644'
+
+# apt_repository named the PPA source after the codename it was added under, so
+# a release upgrade can leave several behind. Also drop the key it dumped into
+# trusted.gpg.d, which apt trusts for every repository rather than just this one.
+- name: Find pre-deb822 neovim PPA apt sources
+  become: true
+  ansible.builtin.find:
+    paths: /etc/apt/sources.list.d
+    patterns: 'neovim-ppa-ubuntu-unstable*.list'
+  register: neovim_repo_legacy
+
+- name: Remove pre-deb822 neovim PPA apt sources
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ neovim_repo_legacy.files | map(attribute='path') | list
+            + ['/etc/apt/trusted.gpg.d/neovim-ppa-ubuntu-unstable.gpg'] }}"
+
+- name: Add neovim unstable repository
+  become: true
+  ansible.builtin.deb822_repository:
+    name: neovim-ppa-unstable
+    types: deb
+    uris: https://ppa.launchpadcontent.net/neovim-ppa/unstable/ubuntu
+    suites: "{{ ansible_facts['distribution_release'] }}"
+    components: main
+    signed_by: /usr/share/keyrings/neovim-ppa-unstable.asc
+    state: present
 
 - name: Install Neovim
   become: true
